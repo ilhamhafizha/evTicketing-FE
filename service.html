@@ -72,6 +72,10 @@
           transform: translateX(0);
         }
       }
+
+      .swal2-container {
+        z-index: 20000 !important;
+      }
     </style>
   </head>
   <body class="bg-slate-50 text-slate-900">
@@ -324,7 +328,7 @@
     </div>
 
     <!-- MODAL BAST (Slide dari Kanan) -->
-    <div id="modalBast" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[9999]">
+    <div id="modalBast" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[1000]">
       <div class="bg-white w-full max-w-xl h-full shadow-2xl flex flex-col animate-slide-in">
         <div class="p-6 border-b flex justify-between items-center bg-slate-50">
           <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest italic">Registrasi BAST Baru</h2>
@@ -854,10 +858,9 @@
           document.getElementById("bastForm").classList.remove("hidden");
 
           Swal.fire({
-            icon: "success",
-            title: "Unit ditemukan",
-            timer: 1200,
-            showConfirmButton: false,
+            icon: "error",
+            title: "Unit tidak ditemukan",
+            text: "No rangka tidak ada di database",
           });
         } catch (err) {
           console.error(err);
