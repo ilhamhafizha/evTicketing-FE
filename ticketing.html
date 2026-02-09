@@ -1101,8 +1101,12 @@
       }
 
       function toggleMenu() {
-        document.getElementById("serviceMobileMenu").classList.toggle("hidden");
+        const menu = document.getElementById("mobileMenu");
+        if (menu) {
+          menu.classList.toggle("hidden");
+        }
       }
+
       // Init
       loadTickets();
     </script>
