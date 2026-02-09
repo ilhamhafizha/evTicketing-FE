@@ -60,7 +60,7 @@
         border-color: #a5b4fc;
         color: #4f46e5;
       }
-      
+
       .animate-slide-in {
         animation: slideIn 0.3s ease-out;
       }
@@ -94,14 +94,14 @@
               📊 Monitoring Tiket
             </a>
 
-            <a
-              href="service.html"
-              class="px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600"
-            >
+            <a href="service.html" class="px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600">
               🔄 Service
             </a>
 
-            <a href="dashboard.html" class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50">
+            <a
+              href="dashboard.html"
+              class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+            >
               🗄️ Database Master
             </a>
           </div>
@@ -144,7 +144,10 @@
             🔄 Service
           </a>
 
-          <a href="dashboard.html" class="block px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-indigo-50">
+          <a
+            href="dashboard.html"
+            class="block px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-indigo-50"
+          >
             🗄️ Database Master
           </a>
 
@@ -171,7 +174,11 @@
               🔄 Rutin <span id="count-RT" class="ml-2 opacity-60">0</span>
             </button>
 
-            <button onclick="setCategory('COMPLETED')" id="cat-COMPLETED" class="cat-btn inactive-cat whitespace-nowrap">
+            <button
+              onclick="setCategory('COMPLETED')"
+              id="cat-COMPLETED"
+              class="cat-btn inactive-cat whitespace-nowrap"
+            >
               ✅ Selesai <span id="count-CP" class="ml-2 opacity-60">0</span>
             </button>
           </div>
@@ -329,7 +336,7 @@
             &times;
           </button>
         </div>
-        
+
         <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
           <div id="searchStep">
             <label class="text-[11px] font-bold mb-2 uppercase block text-indigo-500">Langkah 1: Verifikasi Unit</label>
@@ -348,7 +355,7 @@
                 CEK
               </button>
             </div>
-            
+
             <div
               id="unitFoundCard"
               class="hidden p-4 rounded-xl border-2 border-dashed border-indigo-100 bg-indigo-50/50 mb-6 transition-all"
@@ -362,7 +369,7 @@
             <h3 class="font-bold text-slate-400 text-[10px] uppercase tracking-widest border-b pb-1">
               Langkah 2: Detail BAST
             </h3>
-            
+
             <div class="grid grid-cols-2 gap-4">
               <div class="flex flex-col">
                 <label class="text-[11px] font-bold mb-1">SEGMEN</label>
@@ -370,10 +377,15 @@
               </div>
               <div class="flex flex-col">
                 <label class="text-[11px] font-bold mb-1 text-indigo-600">TGL DELIVERY*</label>
-                <input type="date" id="in_delivery" class="border-2 border-indigo-100 p-2 rounded-lg bg-indigo-50" required />
+                <input
+                  type="date"
+                  id="in_delivery"
+                  class="border-2 border-indigo-100 p-2 rounded-lg bg-indigo-50"
+                  required
+                />
               </div>
             </div>
-            
+
             <div class="grid grid-cols-2 gap-4">
               <div class="flex flex-col">
                 <label class="text-[11px] font-bold mb-1">TGL STNK TERBIT</label>
@@ -384,20 +396,31 @@
                 <input type="date" id="in_stnk_berlaku" class="border p-2 rounded-lg bg-slate-50" />
               </div>
             </div>
-            
+
             <div class="flex flex-col">
               <label class="text-[11px] font-bold mb-1">WARNA (DATA MITRA)</label>
               <input type="text" id="in_warna_mitra" class="border p-2 rounded-lg bg-slate-50" />
             </div>
-            
+
             <div class="flex flex-col">
               <label class="text-[11px] font-bold mb-1">LOKASI PENGIRIMAN</label>
-              <input type="text" id="in_lokasi" class="border p-2 rounded-lg bg-slate-50" placeholder="Alamat lengkap..." />
+              <input
+                type="text"
+                id="in_lokasi"
+                class="border p-2 rounded-lg bg-slate-50"
+                placeholder="Alamat lengkap..."
+              />
             </div>
-            
+
             <div class="flex flex-col">
               <label class="text-[11px] font-bold mb-1 text-indigo-600">NO HP PIC (WA)*</label>
-              <input type="text" id="in_nohp" class="border-2 border-indigo-100 p-2 rounded-lg bg-indigo-50 font-mono" placeholder="628123456789" required />
+              <input
+                type="text"
+                id="in_nohp"
+                class="border-2 border-indigo-100 p-2 rounded-lg bg-indigo-50 font-mono"
+                placeholder="628123456789"
+                required
+              />
             </div>
 
             <div class="flex flex-col gap-3 mt-6">
@@ -472,10 +495,20 @@
           },
         });
 
+        // HANYA redirect jika benar-benar unauthorized
         if (res.status === 401 || res.status === 403) {
           localStorage.removeItem("token");
-          window.location.href = "login.html";
-          return;
+
+          Swal.fire({
+            icon: "warning",
+            title: "Session berakhir",
+            text: "Silakan login kembali",
+            confirmButtonColor: "#4f46e5",
+          }).then(() => {
+            window.location.href = "login.html";
+          });
+
+          return null;
         }
 
         return res;
@@ -650,95 +683,95 @@
           const waTextS1 = `Halo, mengingatkan unit ${master.noPlat || "-"} jadwal service pertama (1 bulan) tanggal ${formatDate(item.jadwalServicePertama)}. Mohon dijadwalkan.`;
 
           tbody.innerHTML += `
-            <tr class="border-b border-slate-50 hover:bg-slate-50/80 transition-all ${isNearRutin || isNearS1 ? "bg-yellow-50" : ""}">
-                <td class="p-4">
-                    <div class="flex flex-col gap-1">
-                        <div class="flex items-center gap-2">
-                            <span class="font-black text-slate-800 text-base uppercase">${master.noPlat || "TANPA PLAT"}</span>
-                            ${isNearS1 ? `<span class="bg-blue-500 text-white text-[9px] px-1.5 py-0.5 rounded animate-pulse font-bold">H-${diffDaysS1} S1!</span>` : ""}
-                            ${isNearRutin ? `<span class="bg-amber-500 text-white text-[9px] px-1.5 py-0.5 rounded animate-pulse font-bold">H-${diffDaysRutin} RUTIN!</span>` : ""}
-                        </div>
-                        <span class="text-[10px] font-black text-indigo-600 uppercase tracking-tighter">${master.namaPelanggan || "-"}</span>
-                        <div class="flex gap-2 mt-1">
-                            <span class="text-[9px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono font-bold">RANGKA: ${master.noRangka || "-"}</span>
-                        </div>
-                    </div>
-                </td>
+                  <tr class="border-b border-slate-50 hover:bg-slate-50/80 transition-all ${isNearRutin || isNearS1 ? "bg-yellow-50" : ""}">
+                      <td class="p-4">
+                          <div class="flex flex-col gap-1">
+                              <div class="flex items-center gap-2">
+                                  <span class="font-black text-slate-800 text-base uppercase">${master.noPlat || "TANPA PLAT"}</span>
+                                  ${isNearS1 ? `<span class="bg-blue-500 text-white text-[9px] px-1.5 py-0.5 rounded animate-pulse font-bold">H-${diffDaysS1} S1!</span>` : ""}
+                                  ${isNearRutin ? `<span class="bg-amber-500 text-white text-[9px] px-1.5 py-0.5 rounded animate-pulse font-bold">H-${diffDaysRutin} RUTIN!</span>` : ""}
+                              </div>
+                              <span class="text-[10px] font-black text-indigo-600 uppercase tracking-tighter">${master.namaPelanggan || "-"}</span>
+                              <div class="flex gap-2 mt-1">
+                                  <span class="text-[9px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono font-bold">RANGKA: ${master.noRangka || "-"}</span>
+                              </div>
+                          </div>
+                      </td>
 
-                <td class="p-4 text-center bg-blue-50/10">
-                    <div class="text-xs font-black text-blue-600 mb-1">${formatDate(item.jadwalServicePertama)}</div>
-                    <span class="text-[9px] px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full font-black uppercase block mb-2">${statusS1}</span>
+                      <td class="p-4 text-center bg-blue-50/10">
+                          <div class="text-xs font-black text-blue-600 mb-1">${formatDate(item.jadwalServicePertama)}</div>
+                          <span class="text-[9px] px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full font-black uppercase block mb-2">${statusS1}</span>
 
-                    <div class="flex justify-center gap-1 mt-2">
-                        ${
-                          item.noHpPic && !isCompletedS1
-                            ? `
-                        <a href="https://wa.me/${item.noHpPic}?text=${encodeURIComponent(waTextS1)}"
-                           target="_blank"
-                           onclick="markAsRemindedS1(${item.id})"
-                           class="p-1.5 bg-emerald-100 text-emerald-600 rounded hover:bg-emerald-600 hover:text-white transition text-xs"
-                           title="WA Service 1 Bulan">
-                            📱
-                        </a>`
-                            : ""
-                        }
+                          <div class="flex justify-center gap-1 mt-2">
+                              ${
+                                item.noHpPic && !isCompletedS1
+                                  ? `
+                              <a href="https://wa.me/${item.noHpPic}?text=${encodeURIComponent(waTextS1)}"
+                                 target="_blank"
+                                 onclick="markAsRemindedS1(${item.id})"
+                                 class="p-1.5 bg-emerald-100 text-emerald-600 rounded hover:bg-emerald-600 hover:text-white transition text-xs"
+                                 title="WA Service 1 Bulan">
+                                  📱
+                              </a>`
+                                  : ""
+                              }
 
-                        ${
-                          !isCompletedS1
-                            ? `
-                        <button onclick="confirmStatusUpdateS1(${item.id}, 'COMPLETED')"
-                                class="p-1.5 bg-blue-100 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition text-xs"
-                                title="Selesai S1">
-                            ✓
-                        </button>`
-                            : ""
-                        }
-                    </div>
-                </td>
+                              ${
+                                !isCompletedS1
+                                  ? `
+                              <button onclick="confirmStatusUpdateS1(${item.id}, 'COMPLETED')"
+                                      class="p-1.5 bg-blue-100 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition text-xs"
+                                      title="Selesai S1">
+                                  ✓
+                              </button>`
+                                  : ""
+                              }
+                          </div>
+                      </td>
 
-                <td class="p-4 text-center bg-indigo-50/10">
-                    <div class="text-xs font-black text-indigo-600 mb-1">${formatDate(item.jadwalServiceRutin)}</div>
-                    <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full font-black uppercase block mb-2">${statusRutin}</span>
+                      <td class="p-4 text-center bg-indigo-50/10">
+                          <div class="text-xs font-black text-indigo-600 mb-1">${formatDate(item.jadwalServiceRutin)}</div>
+                          <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full font-black uppercase block mb-2">${statusRutin}</span>
 
-                    <div class="flex justify-center gap-1 mt-2">
-                        ${
-                          item.noHpPic && !isCompletedRutin
-                            ? `
-                        <a href="https://wa.me/${item.noHpPic}?text=${encodeURIComponent(waTextRutin)}"
-                           target="_blank"
-                           onclick="markAsRemindedRutin(${item.id})"
-                           class="p-1.5 bg-emerald-100 text-emerald-600 rounded hover:bg-emerald-600 hover:text-white transition text-xs"
-                           title="WA Service Rutin">
-                            📱
-                        </a>`
-                            : ""
-                        }
+                          <div class="flex justify-center gap-1 mt-2">
+                              ${
+                                item.noHpPic && !isCompletedRutin
+                                  ? `
+                              <a href="https://wa.me/${item.noHpPic}?text=${encodeURIComponent(waTextRutin)}"
+                                 target="_blank"
+                                 onclick="markAsRemindedRutin(${item.id})"
+                                 class="p-1.5 bg-emerald-100 text-emerald-600 rounded hover:bg-emerald-600 hover:text-white transition text-xs"
+                                 title="WA Service Rutin">
+                                  📱
+                              </a>`
+                                  : ""
+                              }
 
-                        ${
-                          !isCompletedRutin
-                            ? `
-                        <button onclick="confirmStatusUpdateRutin(${item.id}, 'COMPLETED')"
-                                class="p-1.5 bg-indigo-100 text-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition text-xs"
-                                title="Selesai Rutin">
-                            ✓
-                        </button>`
-                            : ""
-                        }
-                    </div>
-                </td>
+                              ${
+                                !isCompletedRutin
+                                  ? `
+                              <button onclick="confirmStatusUpdateRutin(${item.id}, 'COMPLETED')"
+                                      class="p-1.5 bg-indigo-100 text-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition text-xs"
+                                      title="Selesai Rutin">
+                                  ✓
+                              </button>`
+                                  : ""
+                              }
+                          </div>
+                      </td>
 
-                <td class="p-4">
-                    <div class="flex justify-center items-center gap-2">
-                        <button onclick="openEdit(${item.id})" class="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-800 hover:text-white transition shadow-sm border border-slate-200" title="Detail & Edit">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </button>
+                      <td class="p-4">
+                          <div class="flex justify-center items-center gap-2">
+                              <button onclick="openEdit(${item.id})" class="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-800 hover:text-white transition shadow-sm border border-slate-200" title="Detail & Edit">
+                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                              </button>
 
-                        <button onclick="deleteRow(${item.id})" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition border border-red-100" title="Hapus">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>`;
+                              <button onclick="deleteRow(${item.id})" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition border border-red-100" title="Hapus">
+                                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                              </button>
+                          </div>
+                      </td>
+                  </tr>`;
         });
 
         updatePaginationUI(filteredData.length);
@@ -795,12 +828,12 @@
 
           const data = await res.json();
           currentMasterId = data.id;
-          
+
           document.getElementById("res_pelanggan").innerText = data.namaPelanggan || "-";
           document.getElementById("res_plat").innerText = `${data.noPlat || "BELUM ADA PLAT"} | RANGKA: ${nr}`;
           document.getElementById("unitFoundCard").classList.remove("hidden");
           document.getElementById("bastForm").classList.remove("hidden");
-          
+
           Swal.fire({ icon: "success", title: "Unit Ditemukan", timer: 1500, showConfirmButton: false });
         } catch (err) {
           console.error("Vehicle check error:", err);
@@ -860,43 +893,43 @@
         document.getElementById("modalEdit").classList.remove("hidden");
 
         document.getElementById("modalForm").innerHTML = `
-        <div class="flex flex-col">
-            <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Segmen</label>
-            <input type="text" id="edit_segmen" value="${item.segmen || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
-        </div>
-        <div class="flex flex-col">
-            <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Warna Mitra</label>
-            <input type="text" id="edit_warna" value="${item.warnaMitra || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
-        </div>
-        <div class="flex flex-col">
-            <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl Delivery (BAST)</label>
-            <input type="date" id="edit_delivery" value="${item.tglDelivery || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
-        </div>
-        <div class="flex flex-col">
-            <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl STNK Terbit</label>
-            <input type="date" id="edit_stnk_terbit" value="${item.tglStnkTerbit || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
-        </div>
-        <div class="flex flex-col">
-            <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl STNK Berlaku</label>
-            <input type="date" id="edit_stnk_berlaku" value="${item.tglStnkBerlaku || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
-        </div>
-        <div class="flex flex-col">
-            <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Jumlah Order</label>
-            <input type="number" id="edit_jumlah" value="${item.jumlahOrder || 1}" class="border p-2 rounded-lg text-sm bg-slate-50">
-        </div>
-        <div class="flex flex-col col-span-1 md:col-span-2">
-            <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Lokasi Pengiriman</label>
-            <input type="text" id="edit_lokasi" value="${item.lokasiPengiriman || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
-        </div>
-        <div class="flex flex-col col-span-1 md:col-span-2">
-            <label class="text-[10px] font-black text-indigo-600 uppercase mb-1">No HP PIC (WA)</label>
-            <input type="text" id="edit_nohp" value="${item.noHpPic || ""}" class="border p-2 rounded-lg text-sm bg-slate-50 font-mono">
-        </div>
-        <div class="flex items-center gap-2 mt-2 p-2 bg-indigo-50 rounded-lg col-span-1 md:col-span-2">
-            <input type="checkbox" id="edit_done_delivery" ${item.doneDelivery ? "checked" : ""} class="w-4 h-4 accent-indigo-600 cursor-pointer">
-            <label for="edit_done_delivery" class="text-xs font-black text-indigo-700 cursor-pointer uppercase">Sudah Terkirim (Done Delivery)</label>
-        </div>
-        `;
+              <div class="flex flex-col">
+                  <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Segmen</label>
+                  <input type="text" id="edit_segmen" value="${item.segmen || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="flex flex-col">
+                  <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Warna Mitra</label>
+                  <input type="text" id="edit_warna" value="${item.warnaMitra || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="flex flex-col">
+                  <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl Delivery (BAST)</label>
+                  <input type="date" id="edit_delivery" value="${item.tglDelivery || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="flex flex-col">
+                  <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl STNK Terbit</label>
+                  <input type="date" id="edit_stnk_terbit" value="${item.tglStnkTerbit || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="flex flex-col">
+                  <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl STNK Berlaku</label>
+                  <input type="date" id="edit_stnk_berlaku" value="${item.tglStnkBerlaku || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="flex flex-col">
+                  <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Jumlah Order</label>
+                  <input type="number" id="edit_jumlah" value="${item.jumlahOrder || 1}" class="border p-2 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="flex flex-col col-span-1 md:col-span-2">
+                  <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Lokasi Pengiriman</label>
+                  <input type="text" id="edit_lokasi" value="${item.lokasiPengiriman || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
+              </div>
+              <div class="flex flex-col col-span-1 md:col-span-2">
+                  <label class="text-[10px] font-black text-indigo-600 uppercase mb-1">No HP PIC (WA)</label>
+                  <input type="text" id="edit_nohp" value="${item.noHpPic || ""}" class="border p-2 rounded-lg text-sm bg-slate-50 font-mono">
+              </div>
+              <div class="flex items-center gap-2 mt-2 p-2 bg-indigo-50 rounded-lg col-span-1 md:col-span-2">
+                  <input type="checkbox" id="edit_done_delivery" ${item.doneDelivery ? "checked" : ""} class="w-4 h-4 accent-indigo-600 cursor-pointer">
+                  <label for="edit_done_delivery" class="text-xs font-black text-indigo-700 cursor-pointer uppercase">Sudah Terkirim (Done Delivery)</label>
+              </div>
+              `;
       }
 
       async function saveEdit() {
