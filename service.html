@@ -495,8 +495,8 @@
           },
         });
 
-        // HANYA redirect jika benar-benar unauthorized
-        if (res.status === 401 || res.status === 403) {
+        // HANYA jika token invalid
+        if (res.status === 401) {
           localStorage.removeItem("token");
 
           Swal.fire({
@@ -511,6 +511,7 @@
           return null;
         }
 
+        // 403 / 404 / 400 → biarkan ditangani oleh function pemanggil
         return res;
       }
 
@@ -824,21 +825,43 @@
           const res = await authFetch(`${API_MASTER}/search?noRangka=${nr}`);
           if (!res) return;
 
-          if (!res.ok) throw new Error("Not found");
+          // Jika tidak ditemukan
+          if (res.status === 404 || res.status === 403) {
+            currentMasterId = null;
+            document.getElementById("unitFoundCard").classList.add("hidden");
+            document.getElementById("bastForm").classList.add("hidden");
+
+            Swal.fire({
+              icon: "error",
+              title: "Unit tidak ditemukan",
+              text: "No rangka tidak ada di database",
+            });
+            return;
+          }
+
+          if (!res.ok) {
+            const txt = await res.text();
+            throw new Error(txt);
+          }
 
           const data = await res.json();
           currentMasterId = data.id;
 
           document.getElementById("res_pelanggan").innerText = data.namaPelanggan || "-";
           document.getElementById("res_plat").innerText = `${data.noPlat || "BELUM ADA PLAT"} | RANGKA: ${nr}`;
+
           document.getElementById("unitFoundCard").classList.remove("hidden");
           document.getElementById("bastForm").classList.remove("hidden");
 
-          Swal.fire({ icon: "success", title: "Unit Ditemukan", timer: 1500, showConfirmButton: false });
+          Swal.fire({
+            icon: "success",
+            title: "Unit ditemukan",
+            timer: 1200,
+            showConfirmButton: false,
+          });
         } catch (err) {
-          console.error("Vehicle check error:", err);
-          currentMasterId = null;
-          Swal.fire({ icon: "error", title: "Tidak Ditemukan", text: "Data kendaraan tidak ada di Master." });
+          console.error(err);
+          Swal.fire("Error", "Terjadi kesalahan sistem", "error");
         }
       }
 
