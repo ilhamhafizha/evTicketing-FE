@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EV Tools | Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center">
+
+<div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg border border-slate-200">
+
+    <!-- Logo -->
+    <div class="text-center mb-6">
+        <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tighter italic">
+            EV <span class="text-indigo-600">Tools</span>
+        </h1>
+        <p class="text-xs text-slate-500 mt-1">Login ke sistem EV Ticketing</p>
+    </div>
+
+    <!-- Form -->
+    <form id="loginForm" class="space-y-4">
+
+        <div>
+            <label class="text-xs font-bold text-slate-600">Username / Email</label>
+            <input id="username"
+                   class="w-full mt-1 px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none"
+                   required>
+        </div>
+
+        <div>
+            <label class="text-xs font-bold text-slate-600">Password</label>
+            <input id="password" type="password"
+                   class="w-full mt-1 px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none"
+                   required>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold shadow-lg">
+            LOGIN
+        </button>
+    </form>
+
+    <div class="text-center mt-4 text-xs text-slate-500">
+        Belum punya akun?
+        <a href="register.html" class="text-indigo-600 font-bold">Register</a>
+    </div>
+</div>
+
+<script>
+    const BASE_URL = window.location.hostname.includes("localhost")
+        ? "http://localhost:8080"
+        : "https://ev-ticketing-production.up.railway.app";
+
+    const API = BASE_URL + "/api/auth";
+    const TOKEN_KEY = "token";
+
+    // Jika sudah login → langsung ke dashboard
+    if (localStorage.getItem(TOKEN_KEY)) {
+        window.location.href = "dashboard.html";
+    }
+
+    document.getElementById("loginForm").onsubmit = async (e) => {
+        e.preventDefault();
+
+        const payload = {
+            usernameOrEmail: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        };
+
+        try {
+            const res = await fetch(API + "/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                localStorage.setItem(TOKEN_KEY, data.token);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login berhasil',
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 1000);
+
+            } else {
+                Swal.fire("Login gagal", data.message || "Username atau password salah", "error");
+            }
+
+        } catch (err) {
+            Swal.fire("Error", "Tidak dapat terhubung ke server", "error");
+        }
+    };
+</script>
+
+
+</body>
+</html>
