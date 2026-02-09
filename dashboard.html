@@ -35,44 +35,82 @@
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-[100]">
       <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
         <div class="flex justify-between items-center h-16">
-          <div class="flex items-center gap-8">
+          <!-- LEFT: Logo -->
+          <div class="flex items-center gap-4">
             <a href="#" class="text-xl font-black text-slate-800 uppercase tracking-tighter italic">
               EV <span class="text-indigo-600">Tools</span>
             </a>
-
-            <div class="hidden md:flex items-center gap-1">
-              <a
-                href="ticketing.html"
-                id="nav-monitoring"
-                class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
-              >
-                📊 Monitoring Tiket
-              </a>
-              <a
-                href="service.html"
-                id="nav-service"
-                class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
-              >
-                🔄 Service
-              </a>
-              <a
-                href="dashboard.html"
-                id="nav-master"
-                class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-indigo-50 text-indigo-600"
-              >
-                🗄️ Database Master
-              </a>
-            </div>
           </div>
 
-          <div class="flex items-center gap-3">
+          <!-- DESKTOP MENU -->
+          <div class="hidden md:flex items-center gap-1">
+            <a
+              href="ticketing.html"
+              class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+            >
+              📊 Monitoring Tiket
+            </a>
+
+            <a
+              href="service.html"
+              class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+            >
+              🔄 Service
+            </a>
+
+            <a href="dashboard.html" class="px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600">
+              🗄️ Database Master
+            </a>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="flex items-center gap-2">
+            <!-- Logout Desktop -->
             <button
               onclick="logout()"
-              class="text-[10px] font-black bg-red-50 text-red-600 px-4 py-2 rounded-full uppercase tracking-widest hover:bg-red-600 hover:text-white transition"
+              class="hidden md:block text-[10px] font-black bg-red-50 text-red-600 px-4 py-2 rounded-full uppercase tracking-widest hover:bg-red-600 hover:text-white transition"
             >
               Logout
             </button>
+
+            <!-- Hamburger (Mobile) -->
+            <button onclick="toggleMenu()" class="md:hidden p-2 rounded-lg hover:bg-slate-100">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-slate-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
           </div>
+        </div>
+
+        <!-- MOBILE MENU -->
+        <div id="mobileMenu" class="hidden md:hidden pb-4 space-y-2">
+          <a
+            href="ticketing.html"
+            class="block px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-indigo-50"
+          >
+            📊 Monitoring Tiket
+          </a>
+
+          <a href="service.html" class="block px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-indigo-50">
+            🔄 Service
+          </a>
+
+          <a href="dashboard.html" class="block px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600">
+            🗄️ Database Master
+          </a>
+
+          <button
+            onclick="logout()"
+            class="w-full text-left px-4 py-2 text-sm font-bold text-red-600 bg-red-50 rounded-lg hover:bg-red-600 hover:text-white transition"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </nav>
@@ -429,175 +467,6 @@
             </button>
           </div>
         </form>
-
-        <!--        <form id="vForm" class="flex-1 overflow-y-auto p-8 custom-scroll grid grid-cols-2 gap-x-6 gap-y-4 pb-20 bg-white">-->
-        <!--            <input type="hidden" id="vId">-->
-
-        <!--            <h3 class="col-span-2 font-bold text-indigo-600 text-[10px] uppercase tracking-widest border-b pb-1 mt-2">A. Administrasi & Pelanggan</h3>-->
-
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">ID PA</label>-->
-        <!--                <input type="text" id="idPa" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px] focus:border-indigo-500 transition-all">-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">ID Permohonan</label>-->
-        <!--                <input type="text" id="idPermohonan" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px] focus:border-indigo-500 transition-all" required>-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">SID</label>-->
-        <!--                <input type="text" id="sid" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px]">-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Nomor IO</label>-->
-        <!--                <input type="text" id="nomorIo" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px]">-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Sales Name</label>-->
-        <!--                <input type="text" id="salesName" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px]">-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Tgl PA Release</label>-->
-        <!--                <input type="date" id="tanggalPaRelease" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px]">-->
-        <!--            </div>-->
-
-        <!--            <div class="col-span-2 flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Nama Pelanggan</label>-->
-        <!--                <input type="text" id="namaPelanggan" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px] uppercase" required>-->
-        <!--            </div>-->
-        <!--            <div class="col-span-2 flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Alamat</label>-->
-        <!--                <textarea id="alamat" rows="2" class="border p-2 rounded-lg bg-slate-50 outline-none text-[11px]"></textarea>-->
-        <!--            </div>-->
-
-        <!--            <h3 class="col-span-2 font-bold text-indigo-600 text-[10px] uppercase tracking-widest border-b pb-1 mt-4">B. Data Kendaraan</h3>-->
-
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">No Rangka</label>-->
-        <!--                <input type="text" id="noRangka" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px] font-mono" required>-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">No Mesin</label>-->
-        <!--                <input type="text" id="noMesin" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px] font-mono" required>-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">No Plat</label>-->
-        <!--                <input type="text" id="noPlat" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px] uppercase">-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Warna</label>-->
-        <!--                <input type="text" id="warna" class="border p-2 rounded-lg bg-slate-50 outline-none h-10 text-[11px]">-->
-        <!--            </div>-->
-        <!--            <div class="col-span-2 flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Merk & Tipe Unit</label>-->
-        <!--                <select id="merkTipeKendaraan" class="border p-2 rounded-lg bg-white outline-none h-10 text-[11px] font-medium appearance-none">-->
-        <!--                    <option value="">&#45;&#45; Pilih Merk & Tipe &#45;&#45;</option>-->
-        <!--                    <optgroup label="BYD">-->
-        <!--                        <option value="BYD_M6">BYD M6</option>-->
-        <!--                        <option value="BYD_M6_STANDARD">BYD M6 STANDARD</option>-->
-        <!--                        <option value="BYD_M6_SUPERIOR_7_SEATER">BYD M6 SUPERIOR 7 SEATER</option>-->
-        <!--                        <option value="BYD_M6_SUPERIOR_CAPTAIN">BYD M6 SUPERIOR CAPTAIN</option>-->
-        <!--                        <option value="BYD_M6_CAPTAIN_SEAT">BYD M6 CAPTAIN SEAT</option>-->
-        <!--                        <option value="BYD_ATTO_3_SUPERIOR">BYD ATTO 3 SUPERIOR</option>-->
-        <!--                        <option value="BYD_SEAL_PERFORMANCE">BYD SEAL PERFORMANCE</option>-->
-        <!--                        <option value="BYD_SEAL_PREMIUM">BYD SEAL PREMIUM</option>-->
-        <!--                        <option value="BYD_DENZA">BYD DENZA</option>-->
-        <!--                    </optgroup>-->
-        <!--                    <optgroup label="Hyundai">-->
-        <!--                        <option value="HYUNDAI_IONIQ_5_PI">HYUNDAI IONIQ 5 PI</option>-->
-        <!--                        <option value="HYUNDAI_IONIQ_5_PRIME_LO">HYUNDAI IONIQ 5 PRIME LO</option>-->
-        <!--                        <option value="IONIQ_5_PRIME_LONG">IONIQ 5 PRIME LONG</option>-->
-        <!--                        <option value="IONIQ_5_PRIME_LONG_RANGE">IONIQ_5_PRIME_LONG_RANGE</option>-->
-        <!--                    </optgroup>-->
-        <!--                    <optgroup label="Lainnya">-->
-        <!--                        <option value="AION_Y_PLUS_EXCLUSIVE">AION Y PLUS EXCLUSIVE</option>-->
-        <!--                        <option value="CITROEN_E_C3">CITROEN E C3</option>-->
-        <!--                        <option value="MG_4">MG 4</option>-->
-        <!--                        <option value="ADORA">ADORA</option>-->
-        <!--                        <option value="KEFICO_DEUX_7">KEFICO DEUX 7</option>-->
-        <!--                    </optgroup>-->
-        <!--                </select>-->
-        <!--            </div>-->
-
-        <!--            <h3 class="col-span-2 font-bold text-indigo-600 text-[10px] uppercase tracking-widest border-b pb-1 mt-4">C. Klasifikasi & Operasional</h3>-->
-
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Layanan</label>-->
-        <!--                <select id="layanan" class="border p-2 rounded-lg bg-white h-10 outline-none text-[11px]">-->
-        <!--                    <option value="">&#45;&#45; Pilih Layanan &#45;&#45;</option>-->
-        <!--                    <option value="EV_2_WHEEL">EV 2 WHEEL</option>-->
-        <!--                    <option value="EV_4_WHEEL">EV 4 WHEEL</option>-->
-        <!--                    <option value="EV_CHARGER_PRIVATE">EV CHARGER PRIVATE</option>-->
-        <!--                </select>-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">SBU Node</label>-->
-        <!--                <select id="sbuNode" class="border p-2 rounded-lg bg-white h-10 outline-none text-[11px]">-->
-        <!--                    <option value="">&#45;&#45; Pilih SBU Node &#45;&#45;</option>-->
-        <!--                    <option value="JAKARTA_BANTEN">JAKARTA BANTEN</option>-->
-        <!--                    <option value="JAWA_BARAT">JAWA BARAT</option>-->
-        <!--                    <option value="JAWA_TENGAH">JAWA TENGAH</option>-->
-        <!--                    <option value="JAWA_TIMUR">JAWA TIMUR</option>-->
-        <!--                    <option value="SUMATERA_UTARA">SUMATERA UTARA</option>-->
-        <!--                    <option value="SUMATERA_TENGAH">SUMATERA TENGAH</option>-->
-        <!--                    <option value="SUMATERA_SELATAN">SUMATERA SELATAN</option>-->
-        <!--                    <option value="BALI_NUSA_TENGGARA">BALI NUSA TENGGARA</option>-->
-        <!--                    <option value="KALIMANTAN">KALIMANTAN</option>-->
-        <!--                    <option value="SULAWESI_INDONESIA_TIMUR">SULAWESI INDONESIA TIMUR</option>-->
-        <!--                </select>-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Vendor</label>-->
-        <!--                <select id="vendor" class="border p-2 rounded-lg bg-white h-10 outline-none text-[11px]">-->
-        <!--                    <option value="">&#45;&#45; Pilih Vendor &#45;&#45;</option>-->
-        <!--                    <option value="ARISTA">ARISTA</option>-->
-        <!--                    <option value="BJU">BJU</option>-->
-        <!--                    <option value="CSM">CSM</option>-->
-        <!--                    <option value="DAT_MOBILITY_SYSTEMS">DAT MOBILITY SYSTEMS</option>-->
-        <!--                    <option value="HAKA">HAKA</option>-->
-        <!--                    <option value="HSM">HSM</option>-->
-        <!--                </select>-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Tipe Permohonan</label>-->
-        <!--                <select id="tipePermohonan" class="border p-2 rounded-lg bg-white h-10 outline-none text-[11px]">-->
-        <!--                    <option value="">&#45;&#45; Pilih Tipe &#45;&#45;</option>-->
-        <!--                    <option value="ONE_TIME_CHARGE">ONE TIME CHARGE</option>-->
-        <!--                    <option value="SUBSCRIBE">SUBSCRIBE</option>-->
-        <!--                </select>-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Status PAA</label>-->
-        <!--                <select id="statusPaa" class="border p-2 rounded-lg bg-white h-10 outline-none text-[11px]">-->
-        <!--                    <option value="">&#45;&#45; Pilih Status &#45;&#45;</option>-->
-        <!--                    <option value="OPEN">OPEN</option>-->
-        <!--                    <option value="ON_PROGRESS">ON PROGRESS</option>-->
-        <!--                    <option value="BAI">BAI</option>-->
-        <!--                    <option value="WAITING_TESCOM">WAITING TESCOM</option>-->
-        <!--                </select>-->
-        <!--            </div>-->
-        <!--            <div class="flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Status BAA</label>-->
-        <!--                <input type="text" id="statusBaa" class="border p-2 rounded-lg bg-slate-50 h-10 outline-none text-[11px]">-->
-        <!--            </div>-->
-        <!--            <div class="col-span-2 flex flex-col">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Kelengkapan Data</label>-->
-        <!--                <select id="kelengkapanData" class="border p-2 rounded-lg bg-white h-10 outline-none text-[11px]">-->
-        <!--                    <option value="">&#45;&#45; Pilih Status Kelengkapan &#45;&#45;</option>-->
-        <!--                    <option value="LENGKAP">LENGKAP</option>-->
-        <!--                    <option value="TIDAK_LENGKAP">TIDAK LENGKAP</option>-->
-        <!--                </select>-->
-        <!--            </div>-->
-
-        <!--            <div class="col-span-2 flex flex-col mt-2">-->
-        <!--                <label class="text-[11px] font-bold mb-1 text-slate-500">Catatan Internal</label>-->
-        <!--                <textarea id="catatan" rows="2" class="border p-2 rounded-lg bg-slate-50 outline-none text-[11px] italic"></textarea>-->
-        <!--            </div>-->
-
-        <!--            <div class="col-span-2 flex gap-4 mt-8">-->
-        <!--                <button type="submit" class="flex-1 bg-indigo-600 text-white font-black py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition uppercase tracking-widest text-xs">SIMPAN DATABASE</button>-->
-        <!--                <button type="button" onclick="closeModal()" class="px-8 border border-slate-200 font-bold rounded-xl hover:bg-slate-50 transition uppercase text-xs">BATAL</button>-->
-        <!--            </div>-->
-        <!--        </form>-->
       </div>
     </div>
 
@@ -609,7 +478,7 @@
 
       // === CONFIG BACKEND ===
       // Ganti dengan URL Railway kamu
-        const BASE_URL = window.location.hostname.includes("localhost")
+      const BASE_URL = window.location.hostname.includes("localhost")
         ? "http://localhost:8080"
         : "https://ev-ticketing-production.up.railway.app";
 
@@ -858,7 +727,7 @@
           )
           .join("");
       }
-      
+
       function showDetail(i) {
         // Fungsi pembantu lokal untuk membersihkan format Enum (Misal: BYD_M6 -> BYD M6)
         const formatEnum = (val) => {
@@ -995,7 +864,7 @@
         document.getElementById("kelengkapanData").value = i.kelengkapanData || "";
         document.getElementById("catatan").value = gv(i, "catatan");
       }
-      
+
       function deleteData(id) {
         Swal.fire({
           title: "Hapus Unit?",
@@ -1095,6 +964,10 @@
         }
       }
 
+      function toggleMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("hidden");
+      }
       loadData();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>

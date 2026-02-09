@@ -1,503 +1,652 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EV Service Monitoring - BAST & Scheduler</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8fafc;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e2e8f0;
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #cbd5e1;
+      }
 
-        /* Style untuk Tombol Kategori */
-        .cat-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.75rem;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            border-width: 1px;
-            transition: all 0.2s;
-        }
-        .active-cat {
-            background-color: #4f46e5;
-            color: white;
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1);
-            transform: scale(1.05);
-        }
-        .inactive-cat {
-            background-color: white;
-            color: #64748b;
-            border-color: #e2e8f0;
-        }
-        .inactive-cat:hover {
-            border-color: #a5b4fc;
-            color: #4f46e5;
-        }
+      /* Style untuk Tombol Kategori */
+      .cat-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.75rem;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        border-width: 1px;
+        transition: all 0.2s;
+      }
+      .active-cat {
+        background-color: #4f46e5;
+        color: white;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1);
+        transform: scale(1.05);
+      }
+      .inactive-cat {
+        background-color: white;
+        color: #64748b;
+        border-color: #e2e8f0;
+      }
+      .inactive-cat:hover {
+        border-color: #a5b4fc;
+        color: #4f46e5;
+      }
     </style>
-</head>
-<body class="bg-slate-50 text-slate-900">
-
-<nav class="bg-white border-b border-slate-200 sticky top-0 z-[100] shadow-sm">
-    <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
+  </head>
+  <body class="bg-slate-50 text-slate-900">
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-[100] shadow-sm">
+      <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
         <div class="flex justify-between items-center h-16">
-            <div class="flex items-center gap-8">
-                <a href="#" class="text-xl font-black text-slate-800 uppercase tracking-tighter italic">
-                    EV <span class="text-indigo-600">Tools</span>
-                </a>
+          <div class="flex items-center gap-8">
+            <a href="#" class="text-xl font-black text-slate-800 uppercase tracking-tighter italic">
+              EV <span class="text-indigo-600">Tools</span>
+            </a>
 
-                <div class="hidden md:flex items-center gap-1">
-                    <a href="ticketing.html" class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50">📊 Monitoring Tiket</a>
-                    <a href="service.html" class="px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600">🔄 Service</a>
-                    <a href="dashboard.html" class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50">🗄️ Database Master</a>
-                </div>
+            <div class="hidden md:flex items-center gap-1">
+              <a
+                href="ticketing.html"
+                class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+                >📊 Monitoring Tiket</a
+              >
+              <a href="service.html" class="px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600"
+                >🔄 Service</a
+              >
+              <a
+                href="dashboard.html"
+                class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+                >🗄️ Database Master</a
+              >
             </div>
+          </div>
 
-            <div class="flex items-center gap-3">
-                <button onclick="logout()"
-                        class="text-[10px] font-black bg-red-50 text-red-600 px-4 py-2 rounded-full uppercase tracking-widest hover:bg-red-600 hover:text-white transition">
-                    Logout
-                </button>
-            </div>
-
+          <div class="flex items-center gap-3">
+            <button
+              onclick="logout()"
+              class="text-[10px] font-black bg-red-50 text-red-600 px-4 py-2 rounded-full uppercase tracking-widest hover:bg-red-600 hover:text-white transition"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         <div class="flex flex-wrap items-center gap-2 pb-4 pt-1 border-t border-slate-50">
-            <button onclick="setCategory('ALL')" id="cat-ALL" class="cat-btn active-cat">Semua <span id="count-ALL" class="ml-2 opacity-60">0</span></button>
-            <button onclick="setCategory('SERVICE1')" id="cat-SERVICE1" class="cat-btn inactive-cat">⚡ 1 Bulan <span id="count-S1" class="ml-2 opacity-60">0</span></button>
-            <button onclick="setCategory('ROUTINE')" id="cat-ROUTINE" class="cat-btn inactive-cat">🔄 Rutin <span id="count-RT" class="ml-2 opacity-60">0</span></button>
-            <button onclick="setCategory('COMPLETED')" id="cat-COMPLETED" class="cat-btn inactive-cat">✅ Selesai <span id="count-CP" class="ml-2 opacity-60">0</span></button>
+          <button onclick="setCategory('ALL')" id="cat-ALL" class="cat-btn active-cat">
+            Semua <span id="count-ALL" class="ml-2 opacity-60">0</span>
+          </button>
+          <button onclick="setCategory('SERVICE1')" id="cat-SERVICE1" class="cat-btn inactive-cat">
+            ⚡ 1 Bulan <span id="count-S1" class="ml-2 opacity-60">0</span>
+          </button>
+          <button onclick="setCategory('ROUTINE')" id="cat-ROUTINE" class="cat-btn inactive-cat">
+            🔄 Rutin <span id="count-RT" class="ml-2 opacity-60">0</span>
+          </button>
+          <button onclick="setCategory('COMPLETED')" id="cat-COMPLETED" class="cat-btn inactive-cat">
+            ✅ Selesai <span id="count-CP" class="ml-2 opacity-60">0</span>
+          </button>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<div class="container mx-auto p-4 lg:p-8 max-w-7xl">
-
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+    <div class="container mx-auto p-4 lg:p-8 max-w-7xl">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-            <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tighter">EV Service <span class="text-indigo-600">Monitoring</span></h1>
-            <p class="text-slate-500 text-sm font-medium">Manajemen Service & Operasional Unit</p>
+          <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tighter">
+            EV Service <span class="text-indigo-600">Monitoring</span>
+          </h1>
+          <p class="text-slate-500 text-sm font-medium">Manajemen Service & Operasional Unit</p>
         </div>
         <div class="text-right">
-            <span id="currentTime" class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full uppercase border border-indigo-100"></span>
+          <span
+            id="currentTime"
+            class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full uppercase border border-indigo-100"
+          ></span>
         </div>
-    </div>
+      </div>
 
-    <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden mb-8">
+      <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden mb-8">
         <div class="bg-slate-800 p-4 flex justify-between items-center">
-            <h2 class="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                <span class="w-2 h-2 bg-yellow-400 rounded-full animate-ping"></span> Registrasi BAST Baru
-            </h2>
-            <span class="text-[10px] text-slate-400 font-mono">STEP 1: Validasi Master → STEP 2: Input BAST</span>
+          <h2 class="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+            <span class="w-2 h-2 bg-yellow-400 rounded-full animate-ping"></span> Registrasi BAST Baru
+          </h2>
+          <span class="text-[10px] text-slate-400 font-mono">STEP 1: Validasi Master → STEP 2: Input BAST</span>
         </div>
 
         <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 bg-slate-50 p-4 rounded-xl border border-dashed border-slate-300">
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Cari No Rangka (Master)</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="searchNoRangka" class="flex-1 border-2 border-white focus:border-indigo-500 outline-none p-2 rounded-lg font-mono text-sm shadow-sm transition-all uppercase" placeholder="Masukkan No Rangka...">
-                        <button onclick="checkVehicle()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded-lg transition-all shadow-lg shadow-indigo-200 active:scale-95">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Nama Pelanggan</label>
-                    <input type="text" id="res_pelanggan" class="p-2 rounded-lg bg-slate-200/50 border-none font-bold text-slate-600 text-sm" readonly placeholder="-">
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-black text-slate-400 uppercase mb-1">No Polisi / Plat</label>
-                    <input type="text" id="res_plat" class="p-2 rounded-lg bg-slate-200/50 border-none font-bold text-slate-600 text-sm" readonly placeholder="-">
-                </div>
+          <div
+            class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 bg-slate-50 p-4 rounded-xl border border-dashed border-slate-300"
+          >
+            <div class="flex flex-col">
+              <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Cari No Rangka (Master)</label>
+              <div class="flex gap-2">
+                <input
+                  type="text"
+                  id="searchNoRangka"
+                  class="flex-1 border-2 border-white focus:border-indigo-500 outline-none p-2 rounded-lg font-mono text-sm shadow-sm transition-all uppercase"
+                  placeholder="Masukkan No Rangka..."
+                />
+                <button
+                  onclick="checkVehicle()"
+                  class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded-lg transition-all shadow-lg shadow-indigo-200 active:scale-95"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="flex flex-col col-span-2 md:col-span-1">
-                    <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Segmen</label>
-                    <input type="text" id="in_segmen" class="border p-2 rounded-lg text-sm focus:ring-2 ring-indigo-100 outline-none border-slate-200">
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-black text-indigo-600 uppercase mb-1 italic">Tgl Delivery (BAST)*</label>
-                    <input type="date" id="in_delivery" class="border-2 border-indigo-100 p-2 rounded-lg text-sm bg-indigo-50 outline-none focus:bg-white transition-all">
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Tgl STNK Terbit</label>
-                    <input type="date" id="in_stnk_terbit" class="border p-2 rounded-lg text-sm outline-none border-slate-200">
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Tgl STNK Berlaku</label>
-                    <input type="date" id="in_stnk_berlaku" class="border p-2 rounded-lg text-sm outline-none border-slate-200">
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Warna (Data Mitra)</label>
-                    <input type="text" id="in_warna_mitra" class="border p-2 rounded-lg text-sm outline-none border-slate-200">
-                </div>
-                <div class="flex flex-col col-span-2">
-                    <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Lokasi Pengiriman Unit</label>
-                    <input type="text" id="in_lokasi" class="border p-2 rounded-lg text-sm outline-none border-slate-200" placeholder="Alamat lengkap lokasi pengiriman...">
-                </div>
-                <div class="flex flex-col col-span-2">
-                    <label class="text-[10px] font-black text-indigo-600 uppercase mb-1">No. HP PIC (WhatsApp) *</label>
-                    <input type="text" id="in_nohp" class="border-2 border-indigo-50 p-2 rounded-lg text-sm outline-none focus:border-indigo-500 transition-all" placeholder="Contoh: 628123456789">
-                </div>
+            <div class="flex flex-col">
+              <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Nama Pelanggan</label>
+              <input
+                type="text"
+                id="res_pelanggan"
+                class="p-2 rounded-lg bg-slate-200/50 border-none font-bold text-slate-600 text-sm"
+                readonly
+                placeholder="-"
+              />
             </div>
+            <div class="flex flex-col">
+              <label class="text-[10px] font-black text-slate-400 uppercase mb-1">No Polisi / Plat</label>
+              <input
+                type="text"
+                id="res_plat"
+                class="p-2 rounded-lg bg-slate-200/50 border-none font-bold text-slate-600 text-sm"
+                readonly
+                placeholder="-"
+              />
+            </div>
+          </div>
 
-            <button onclick="submitBast()" class="mt-8 w-full bg-indigo-600 hover:bg-slate-800 text-white font-black py-4 rounded-xl transition-all shadow-xl shadow-indigo-100 flex items-center justify-center gap-3 uppercase tracking-widest text-sm text-center active:scale-[0.98]">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Simpan & Aktifkan Penjadwalan Otomatis
-            </button>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="flex flex-col col-span-2 md:col-span-1">
+              <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Segmen</label>
+              <input
+                type="text"
+                id="in_segmen"
+                class="border p-2 rounded-lg text-sm focus:ring-2 ring-indigo-100 outline-none border-slate-200"
+              />
+            </div>
+            <div class="flex flex-col">
+              <label class="text-[10px] font-black text-indigo-600 uppercase mb-1 italic">Tgl Delivery (BAST)*</label>
+              <input
+                type="date"
+                id="in_delivery"
+                class="border-2 border-indigo-100 p-2 rounded-lg text-sm bg-indigo-50 outline-none focus:bg-white transition-all"
+              />
+            </div>
+            <div class="flex flex-col">
+              <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Tgl STNK Terbit</label>
+              <input
+                type="date"
+                id="in_stnk_terbit"
+                class="border p-2 rounded-lg text-sm outline-none border-slate-200"
+              />
+            </div>
+            <div class="flex flex-col">
+              <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Tgl STNK Berlaku</label>
+              <input
+                type="date"
+                id="in_stnk_berlaku"
+                class="border p-2 rounded-lg text-sm outline-none border-slate-200"
+              />
+            </div>
+            <div class="flex flex-col">
+              <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Warna (Data Mitra)</label>
+              <input
+                type="text"
+                id="in_warna_mitra"
+                class="border p-2 rounded-lg text-sm outline-none border-slate-200"
+              />
+            </div>
+            <div class="flex flex-col col-span-2">
+              <label class="text-[10px] font-black text-slate-500 uppercase mb-1">Lokasi Pengiriman Unit</label>
+              <input
+                type="text"
+                id="in_lokasi"
+                class="border p-2 rounded-lg text-sm outline-none border-slate-200"
+                placeholder="Alamat lengkap lokasi pengiriman..."
+              />
+            </div>
+            <div class="flex flex-col col-span-2">
+              <label class="text-[10px] font-black text-indigo-600 uppercase mb-1">No. HP PIC (WhatsApp) *</label>
+              <input
+                type="text"
+                id="in_nohp"
+                class="border-2 border-indigo-50 p-2 rounded-lg text-sm outline-none focus:border-indigo-500 transition-all"
+                placeholder="Contoh: 628123456789"
+              />
+            </div>
+          </div>
+
+          <button
+            onclick="submitBast()"
+            class="mt-8 w-full bg-indigo-600 hover:bg-slate-800 text-white font-black py-4 rounded-xl transition-all shadow-xl shadow-indigo-100 flex items-center justify-center gap-3 uppercase tracking-widest text-sm text-center active:scale-[0.98]"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Simpan & Aktifkan Penjadwalan Otomatis
+          </button>
         </div>
-    </div>
+      </div>
 
-    <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
         <div class="p-6 border-b border-slate-100 bg-slate-50">
-
-            <div class="flex flex-col lg:flex-row lg:items-center gap-4">
-
-                <!-- Judul -->
-                <div class="flex flex-col flex-1">
-                    <h3 class="font-black text-slate-800 uppercase tracking-tight text-sm">
-                        Monitoring Jadwal Service Berkala
-                    </h3>
-                    <p id="showingCount" class="text-[10px] text-slate-400 font-bold uppercase mt-1">
-                        Memuat data...
-                    </p>
-                </div>
-
-                <!-- Toolbar -->
-                <div class="flex flex-wrap gap-2 w-full lg:w-auto">
-
-                    <!-- Status Filter -->
-                    <select id="statusDropdown" onchange="applyFilters()"
-                            class="px-3 py-2 text-[11px] font-bold border border-slate-200 rounded-xl
-                       bg-white focus:ring-2 ring-indigo-100 outline-none">
-                        <option value="EVERYTHING">Semua Status</option>
-                        <option value="OPEN">OPEN</option>
-                        <option value="REMINDED">NOTIFIED</option>
-                        <option value="COMPLETED">COMPLETED</option>
-                    </select>
-
-                    <!-- Search -->
-                    <div class="relative w-full md:w-64">
-                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400"
-                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-
-                        <input id="tableSearch" onkeyup="applyFilters()"
-                               placeholder="Cari Plat / Rangka..."
-                               class="pl-8 pr-3 py-2 w-full text-[11px] font-bold uppercase
-                              border border-slate-200 rounded-xl bg-white
-                              focus:ring-2 ring-indigo-100 outline-none">
-                    </div>
-
-                    <!-- Refresh -->
-                    <button onclick="loadServiceData()"
-                            class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-[11px]
-                       font-black text-slate-600 hover:bg-slate-50 transition shadow-sm">
-                        ♻ Refresh
-                    </button>
-
-                    <!-- Export -->
-                    <button onclick="exportServiceExcel()"
-                            class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-[11px]
-                       font-black hover:bg-emerald-700 transition shadow-sm flex items-center gap-1">
-                        📥 Export
-                    </button>
-
-                </div>
+          <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+            <!-- Judul -->
+            <div class="flex flex-col flex-1">
+              <h3 class="font-black text-slate-800 uppercase tracking-tight text-sm">
+                Monitoring Jadwal Service Berkala
+              </h3>
+              <p id="showingCount" class="text-[10px] text-slate-400 font-bold uppercase mt-1">Memuat data...</p>
             </div>
+
+            <!-- Toolbar -->
+            <div class="flex flex-wrap gap-2 w-full lg:w-auto">
+              <!-- Status Filter -->
+              <select
+                id="statusDropdown"
+                onchange="applyFilters()"
+                class="px-3 py-2 text-[11px] font-bold border border-slate-200 rounded-xl bg-white focus:ring-2 ring-indigo-100 outline-none"
+              >
+                <option value="EVERYTHING">Semua Status</option>
+                <option value="OPEN">OPEN</option>
+                <option value="REMINDED">NOTIFIED</option>
+                <option value="COMPLETED">COMPLETED</option>
+              </select>
+
+              <!-- Search -->
+              <div class="relative w-full md:w-64">
+                <svg
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+
+                <input
+                  id="tableSearch"
+                  onkeyup="applyFilters()"
+                  placeholder="Cari Plat / Rangka..."
+                  class="pl-8 pr-3 py-2 w-full text-[11px] font-bold uppercase border border-slate-200 rounded-xl bg-white focus:ring-2 ring-indigo-100 outline-none"
+                />
+              </div>
+
+              <!-- Refresh -->
+              <button
+                onclick="loadServiceData()"
+                class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-[11px] font-black text-slate-600 hover:bg-slate-50 transition shadow-sm"
+              >
+                ♻ Refresh
+              </button>
+
+              <!-- Export -->
+              <button
+                onclick="exportServiceExcel()"
+                class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-[11px] font-black hover:bg-emerald-700 transition shadow-sm flex items-center gap-1"
+              >
+                📥 Export
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full text-left border-collapse min-w-[1000px]">
-                <thead>
-                <tr class="bg-slate-50 text-slate-400 text-[10px] uppercase font-black tracking-widest border-b border-slate-100">
-                    <th class="p-4">Detail Kendaraan & Pelanggan</th>
-                    <th class="p-4 text-center text-blue-600 bg-blue-50/30 border-x border-slate-100">Service 1 (1 Bln)</th>
-                    <th class="p-4 text-center text-indigo-600 bg-indigo-50/30 border-x border-slate-100">Service Rutin (6 Bln)</th>
-                    <th class="p-4 text-center">Status & Aksi</th>
-                </tr>
-                </thead>
-                <tbody id="serviceTableBody" class="text-slate-600 text-sm italic divide-y divide-slate-50">
-                <tr><td colspan="4" class="p-10 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse italic">Memuat Data...</td></tr>
-                </tbody>
-            </table>
+          <table class="w-full text-left border-collapse min-w-[1000px]">
+            <thead>
+              <tr
+                class="bg-slate-50 text-slate-400 text-[10px] uppercase font-black tracking-widest border-b border-slate-100"
+              >
+                <th class="p-4">Detail Kendaraan & Pelanggan</th>
+                <th class="p-4 text-center text-blue-600 bg-blue-50/30 border-x border-slate-100">Service 1 (1 Bln)</th>
+                <th class="p-4 text-center text-indigo-600 bg-indigo-50/30 border-x border-slate-100">
+                  Service Rutin (6 Bln)
+                </th>
+                <th class="p-4 text-center">Status & Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="serviceTableBody" class="text-slate-600 text-sm italic divide-y divide-slate-50">
+              <tr>
+                <td
+                  colspan="4"
+                  class="p-10 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse italic"
+                >
+                  Memuat Data...
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="p-4 flex justify-between items-center bg-slate-50/50 border-t border-slate-100">
-            <span id="paginationInfo" class="text-[10px] font-black text-slate-400 uppercase tracking-widest"></span>
-            <div class="flex gap-2">
-                <button id="prevBtn"
-                        onclick="changePage(-1)"
-                        class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-black
-           hover:bg-slate-50
-           disabled:opacity-30 disabled:cursor-not-allowed transition shadow-sm">
-                    PREVIOUS
-                </button>
+          <span id="paginationInfo" class="text-[10px] font-black text-slate-400 uppercase tracking-widest"></span>
+          <div class="flex gap-2">
+            <button
+              id="prevBtn"
+              onclick="changePage(-1)"
+              class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-black hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition shadow-sm"
+            >
+              PREVIOUS
+            </button>
 
-                <button id="nextBtn"
-                        onclick="changePage(1)"
-                        class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-black
-           hover:bg-slate-50
-           disabled:opacity-30 disabled:cursor-not-allowed transition shadow-sm">
-                    NEXT
-                </button>
-            </div>
+            <button
+              id="nextBtn"
+              onclick="changePage(1)"
+              class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[10px] font-black hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition shadow-sm"
+            >
+              NEXT
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- MODAL EDIT -->
-<div id="modalEdit" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden border border-white/20">
+    <!-- MODAL EDIT -->
+    <div
+      id="modalEdit"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4"
+    >
+      <div class="bg-white rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden border border-white/20">
         <div class="bg-slate-800 p-5 flex justify-between items-center">
-            <div>
-                <h3 class="text-white font-black uppercase text-xs tracking-widest">Detail & Edit Unit</h3>
-                <p id="editTitlePlat" class="text-indigo-400 text-[10px] font-bold uppercase mt-1"></p>
-            </div>
-            <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors">✕</button>
+          <div>
+            <h3 class="text-white font-black uppercase text-xs tracking-widest">Detail & Edit Unit</h3>
+            <p id="editTitlePlat" class="text-indigo-400 text-[10px] font-bold uppercase mt-1"></p>
+          </div>
+          <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors">✕</button>
         </div>
-        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto custom-scrollbar" id="modalForm">
-        </div>
+        <div
+          class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto custom-scrollbar"
+          id="modalForm"
+        ></div>
         <div class="p-4 bg-slate-50 flex justify-between items-center gap-4 border-t border-slate-100">
-            <div class="flex gap-2">
-                <button onclick="saveEdit()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-[10px] font-black uppercase shadow-lg shadow-indigo-200 active:scale-95">Simpan Perubahan</button>
-                <button onclick="closeModal()" class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 hover:text-slate-600">Batal</button>
-            </div>
+          <div class="flex gap-2">
+            <button
+              onclick="saveEdit()"
+              class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-[10px] font-black uppercase shadow-lg shadow-indigo-200 active:scale-95"
+            >
+              Simpan Perubahan
+            </button>
+            <button
+              onclick="closeModal()"
+              class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 hover:text-slate-600"
+            >
+              Batal
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<script>
-
-    const token = localStorage.getItem("token");
-    if (!token) {
+    <script>
+      const token = localStorage.getItem("token");
+      if (!token) {
         window.location.href = "login.html";
-    }
+      }
 
-    async function authFetch(url, options = {}) {
+      async function authFetch(url, options = {}) {
         const res = await fetch(url, {
-            ...options,
-            headers: {
-                ...(options.headers || {}),
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
-            }
+          ...options,
+          headers: {
+            ...(options.headers || {}),
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
         });
 
         if (res.status === 401 || res.status === 403) {
-            localStorage.removeItem("token");
-            window.location.href = "login.html";
-            return;
+          localStorage.removeItem("token");
+          window.location.href = "login.html";
+          return;
         }
 
         return res;
-    }
+      }
 
-    function logout() {
+      function logout() {
         Swal.fire({
-            title: 'Logout?',
-            text: 'Anda akan keluar dari sistem',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            confirmButtonText: 'Ya, Logout'
+          title: "Logout?",
+          text: "Anda akan keluar dari sistem",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#ef4444",
+          confirmButtonText: "Ya, Logout",
         }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const token = localStorage.getItem("token");
+          if (result.isConfirmed) {
+            try {
+              const token = localStorage.getItem("token");
 
-                    // Optional: hit backend logout
-                    if (token) {
-                        await fetch(BASE_URL + "/api/auth/logout", {
-                            method: "POST",
-                            headers: {
-                                "Authorization": "Bearer " + token
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.log("Logout API error (ignored)");
-                }
-
-                // Hapus token
-                localStorage.removeItem("token");
-
-                // Redirect ke login
-                window.location.href = "login.html";
+              // Optional: hit backend logout
+              if (token) {
+                await fetch(BASE_URL + "/api/auth/logout", {
+                  method: "POST",
+                  headers: {
+                    Authorization: "Bearer " + token,
+                  },
+                });
+              }
+            } catch (e) {
+              console.log("Logout API error (ignored)");
             }
-        });
-    }
 
-    // Auto detect local / production
-    const BASE_URL = window.location.hostname.includes("localhost")
+            // Hapus token
+            localStorage.removeItem("token");
+
+            // Redirect ke login
+            window.location.href = "login.html";
+          }
+        });
+      }
+
+      // Auto detect local / production
+      const BASE_URL = window.location.hostname.includes("localhost")
         ? "http://localhost:8080"
         : "https://ev-ticketing-production.up.railway.app";
 
-    const API_BASE = BASE_URL + "/api/service-tickets";
-    const API_MASTER = BASE_URL + "/api/master-kendaraan";
+      const API_BASE = BASE_URL + "/api/service-tickets";
+      const API_MASTER = BASE_URL + "/api/master-kendaraan";
 
-    let allServiceData = [];
-    let filteredData = [];
-    let currentCategory = 'ALL';
-    let currentMasterId = null;
-    let currentPage = 1;
-    const rowsPerPage = 5;
-    let editingId = null;
+      let allServiceData = [];
+      let filteredData = [];
+      let currentCategory = "ALL";
+      let currentMasterId = null;
+      let currentPage = 1;
+      const rowsPerPage = 5;
+      let editingId = null;
 
-    // ===== INIT SYSTEM =====
-    async function initSystem() {
-        document.getElementById('currentTime').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      // ===== INIT SYSTEM =====
+      async function initSystem() {
+        document.getElementById("currentTime").innerText = new Date().toLocaleDateString("id-ID", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
         if ("Notification" in window) {
-            Notification.requestPermission();
+          Notification.requestPermission();
         }
         await loadServiceData();
-        setInterval(() => { loadServiceData(); }, 30000);
-    }
+        setInterval(() => {
+          loadServiceData();
+        }, 30000);
+      }
 
-    // ===== LOAD DATA =====
-    async function loadServiceData() {
+      // ===== LOAD DATA =====
+      async function loadServiceData() {
         try {
-            const res = await authFetch(`${API_BASE}/all`);
-            if (!res) return;
+          const res = await authFetch(`${API_BASE}/all`);
+          if (!res) return;
 
-            if(!res.ok) throw new Error('Failed to authFetch');
-            allServiceData = await res.json();
-            updateCounters();
-            applyFilters();
+          if (!res.ok) throw new Error("Failed to authFetch");
+          allServiceData = await res.json();
+          updateCounters();
+          applyFilters();
         } catch (err) {
-            console.error('Error loading data:', err);
-            document.getElementById('serviceTableBody').innerHTML = `<tr><td colspan="4" class="p-10 text-center text-red-400 font-bold uppercase italic">Gagal memuat data dari server.</td></tr>`;
+          console.error("Error loading data:", err);
+          document.getElementById("serviceTableBody").innerHTML =
+            `<tr><td colspan="4" class="p-10 text-center text-red-400 font-bold uppercase italic">Gagal memuat data dari server.</td></tr>`;
         }
-    }
+      }
 
-    // ===== FILTER KATEGORI =====
-    function setCategory(cat) {
+      // ===== FILTER KATEGORI =====
+      function setCategory(cat) {
         currentCategory = cat;
-        document.querySelectorAll('.cat-btn').forEach(btn => {
-            btn.classList.remove('active-cat');
-            btn.classList.add('inactive-cat');
+        document.querySelectorAll(".cat-btn").forEach((btn) => {
+          btn.classList.remove("active-cat");
+          btn.classList.add("inactive-cat");
         });
         const activeBtn = document.getElementById(`cat-${cat}`);
         if (activeBtn) {
-            activeBtn.classList.remove('inactive-cat');
-            activeBtn.classList.add('active-cat');
+          activeBtn.classList.remove("inactive-cat");
+          activeBtn.classList.add("active-cat");
         }
         applyFilters();
-    }
+      }
 
-    // ===== APPLY FILTERS =====
-    function applyFilters() {
-        const search = document.getElementById('tableSearch').value.toUpperCase();
-        const specificStatus = document.getElementById('statusDropdown').value;
+      // ===== APPLY FILTERS =====
+      function applyFilters() {
+        const search = document.getElementById("tableSearch").value.toUpperCase();
+        const specificStatus = document.getElementById("statusDropdown").value;
 
-        filteredData = allServiceData.filter(item => {
-            // Filter null status
-            if (specificStatus === 'NULL') {
-                if (item.statusServiceRutin !== null) return false;
-            } else {
-                if (item.statusServiceRutin === null) return false;
-            }
+        filteredData = allServiceData.filter((item) => {
+          // Filter null status
+          if (specificStatus === "NULL") {
+            if (item.statusServiceRutin !== null) return false;
+          } else {
+            if (item.statusServiceRutin === null) return false;
+          }
 
-            // Search filter
-            const master = item.masterKendaraan || {};
-            const plat = (master.noPlat || "").toUpperCase();
-            const nama = (master.namaPelanggan || "").toUpperCase();
-            const rangka = (master.noRangka || "").toUpperCase();
-            const mesin = (master.noMesin || "").toUpperCase();
-            const matchSearch = plat.includes(search) || nama.includes(search) || rangka.includes(search) || mesin.includes(search);
+          // Search filter
+          const master = item.masterKendaraan || {};
+          const plat = (master.noPlat || "").toUpperCase();
+          const nama = (master.namaPelanggan || "").toUpperCase();
+          const rangka = (master.noRangka || "").toUpperCase();
+          const mesin = (master.noMesin || "").toUpperCase();
+          const matchSearch =
+            plat.includes(search) || nama.includes(search) || rangka.includes(search) || mesin.includes(search);
 
-            // Category filter
-            let matchCat = true;
-            if(currentCategory === 'SERVICE1') {
-                matchCat = (item.statusServicePertama === 'OPEN');
-            } else if(currentCategory === 'ROUTINE') {
-                matchCat = (item.statusServiceRutin === 'OPEN' || item.statusServiceRutin === 'REMINDED');
-            } else if(currentCategory === 'COMPLETED') {
-                matchCat = (item.statusServiceRutin === 'COMPLETED');
-            }
+          // Category filter
+          let matchCat = true;
+          if (currentCategory === "SERVICE1") {
+            matchCat = item.statusServicePertama === "OPEN";
+          } else if (currentCategory === "ROUTINE") {
+            matchCat = item.statusServiceRutin === "OPEN" || item.statusServiceRutin === "REMINDED";
+          } else if (currentCategory === "COMPLETED") {
+            matchCat = item.statusServiceRutin === "COMPLETED";
+          }
 
-            // Status dropdown filter
-            let matchStatus = true;
-            if(specificStatus !== 'EVERYTHING' && specificStatus !== 'NULL') {
-                matchStatus = (item.statusServiceRutin === specificStatus);
-            }
+          // Status dropdown filter
+          let matchStatus = true;
+          if (specificStatus !== "EVERYTHING" && specificStatus !== "NULL") {
+            matchStatus = item.statusServiceRutin === specificStatus;
+          }
 
-            return matchSearch && matchCat && matchStatus;
+          return matchSearch && matchCat && matchStatus;
         });
 
         currentPage = 1;
         renderTable();
-    }
+      }
 
-    // ===== RENDER TABLE =====
-    function renderTable() {
-        const tbody = document.getElementById('serviceTableBody');
-        tbody.innerHTML = '';
+      // ===== RENDER TABLE =====
+      function renderTable() {
+        const tbody = document.getElementById("serviceTableBody");
+        tbody.innerHTML = "";
 
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         const paginatedItems = filteredData.slice(start, end);
 
         if (paginatedItems.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" class="p-10 text-center text-slate-300 font-bold uppercase italic">Data tidak ditemukan</td></tr>';
-            updatePaginationUI(0);
-            document.getElementById('showingCount').innerText = `Menampilkan 0 Data`;
-            return;
+          tbody.innerHTML =
+            '<tr><td colspan="4" class="p-10 text-center text-slate-300 font-bold uppercase italic">Data tidak ditemukan</td></tr>';
+          updatePaginationUI(0);
+          document.getElementById("showingCount").innerText = `Menampilkan 0 Data`;
+          return;
         }
 
-        paginatedItems.forEach(item => {
-            const master = item.masterKendaraan || {};
-            const statusRutin = item.statusServiceRutin || 'OPEN';
-            const statusS1 = item.statusServicePertama || 'OPEN';
+        paginatedItems.forEach((item) => {
+          const master = item.masterKendaraan || {};
+          const statusRutin = item.statusServiceRutin || "OPEN";
+          const statusS1 = item.statusServicePertama || "OPEN";
 
-            // Calculate reminder days for RUTIN
-            const today = new Date();
-            const jadwalRutin = new Date(item.jadwalServiceRutin);
-            const diffTimeRutin = jadwalRutin - today;
-            const diffDaysRutin = Math.ceil(diffTimeRutin / (1000 * 60 * 60 * 24));
+          // Calculate reminder days for RUTIN
+          const today = new Date();
+          const jadwalRutin = new Date(item.jadwalServiceRutin);
+          const diffTimeRutin = jadwalRutin - today;
+          const diffDaysRutin = Math.ceil(diffTimeRutin / (1000 * 60 * 60 * 24));
 
-            // Calculate reminder days for SERVICE 1 BULAN
-            const jadwalS1 = new Date(item.jadwalServicePertama);
-            const diffTimeS1 = jadwalS1 - today;
-            const diffDaysS1 = Math.ceil(diffTimeS1 / (1000 * 60 * 60 * 24));
+          // Calculate reminder days for SERVICE 1 BULAN
+          const jadwalS1 = new Date(item.jadwalServicePertama);
+          const diffTimeS1 = jadwalS1 - today;
+          const diffDaysS1 = Math.ceil(diffTimeS1 / (1000 * 60 * 60 * 24));
 
-            // Check if near for both services
-            const isNearRutin = diffDaysRutin <= 7 && diffDaysRutin >= -1 && statusRutin === 'OPEN';
-            const isNearS1 = diffDaysS1 <= 7 && diffDaysS1 >= -1 && statusS1 === 'OPEN';
+          // Check if near for both services
+          const isNearRutin = diffDaysRutin <= 7 && diffDaysRutin >= -1 && statusRutin === "OPEN";
+          const isNearS1 = diffDaysS1 <= 7 && diffDaysS1 >= -1 && statusS1 === "OPEN";
 
-            const isCompletedRutin = statusRutin === 'COMPLETED';
-            const isCompletedS1 = statusS1 === 'COMPLETED';
+          const isCompletedRutin = statusRutin === "COMPLETED";
+          const isCompletedS1 = statusS1 === "COMPLETED";
 
-            // WhatsApp text for both services
-            const waTextRutin = `Halo, mengingatkan unit ${master.noPlat || '-'} jadwal service rutin 6 bulan tanggal ${formatDate(item.jadwalServiceRutin)}. Mohon dijadwalkan.`;
-            const waTextS1 = `Halo, mengingatkan unit ${master.noPlat || '-'} jadwal service pertama (1 bulan) tanggal ${formatDate(item.jadwalServicePertama)}. Mohon dijadwalkan.`;
+          // WhatsApp text for both services
+          const waTextRutin = `Halo, mengingatkan unit ${master.noPlat || "-"} jadwal service rutin 6 bulan tanggal ${formatDate(item.jadwalServiceRutin)}. Mohon dijadwalkan.`;
+          const waTextS1 = `Halo, mengingatkan unit ${master.noPlat || "-"} jadwal service pertama (1 bulan) tanggal ${formatDate(item.jadwalServicePertama)}. Mohon dijadwalkan.`;
 
-            tbody.innerHTML += `
-            <tr class="border-b border-slate-50 hover:bg-slate-50/80 transition-all ${isNearRutin || isNearS1 ? 'bg-yellow-50' : ''}">
+          tbody.innerHTML += `
+            <tr class="border-b border-slate-50 hover:bg-slate-50/80 transition-all ${isNearRutin || isNearS1 ? "bg-yellow-50" : ""}">
                 <td class="p-4">
                     <div class="flex flex-col gap-1">
                         <div class="flex items-center gap-2">
-                            <span class="font-black text-slate-800 text-base uppercase">${master.noPlat || 'TANPA PLAT'}</span>
-                            ${isNearS1 ? `<span class="bg-blue-500 text-white text-[9px] px-1.5 py-0.5 rounded animate-pulse font-bold">H-${diffDaysS1} S1!</span>` : ''}
-                            ${isNearRutin ? `<span class="bg-amber-500 text-white text-[9px] px-1.5 py-0.5 rounded animate-pulse font-bold">H-${diffDaysRutin} RUTIN!</span>` : ''}
+                            <span class="font-black text-slate-800 text-base uppercase">${master.noPlat || "TANPA PLAT"}</span>
+                            ${isNearS1 ? `<span class="bg-blue-500 text-white text-[9px] px-1.5 py-0.5 rounded animate-pulse font-bold">H-${diffDaysS1} S1!</span>` : ""}
+                            ${isNearRutin ? `<span class="bg-amber-500 text-white text-[9px] px-1.5 py-0.5 rounded animate-pulse font-bold">H-${diffDaysRutin} RUTIN!</span>` : ""}
                         </div>
-                        <span class="text-[10px] font-black text-indigo-600 uppercase tracking-tighter">${master.namaPelanggan || '-'}</span>
+                        <span class="text-[10px] font-black text-indigo-600 uppercase tracking-tighter">${master.namaPelanggan || "-"}</span>
                         <div class="flex gap-2 mt-1">
-                            <span class="text-[9px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono font-bold">RANGKA: ${master.noRangka || '-'}</span>
+                            <span class="text-[9px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono font-bold">RANGKA: ${master.noRangka || "-"}</span>
                         </div>
                     </div>
                 </td>
@@ -508,21 +657,29 @@
                     <span class="text-[9px] px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full font-black uppercase block mb-2">${statusS1}</span>
 
                     <div class="flex justify-center gap-1 mt-2">
-                        ${item.noHpPic && !isCompletedS1 ? `
+                        ${
+                          item.noHpPic && !isCompletedS1
+                            ? `
                         <a href="https://wa.me/${item.noHpPic}?text=${encodeURIComponent(waTextS1)}"
                            target="_blank"
                            onclick="markAsRemindedS1(${item.id})"
                            class="p-1.5 bg-emerald-100 text-emerald-600 rounded hover:bg-emerald-600 hover:text-white transition text-xs"
                            title="WA Service 1 Bulan">
                             📱
-                        </a>` : ''}
+                        </a>`
+                            : ""
+                        }
 
-                        ${!isCompletedS1 ? `
+                        ${
+                          !isCompletedS1
+                            ? `
                         <button onclick="confirmStatusUpdateS1(${item.id}, 'COMPLETED')"
                                 class="p-1.5 bg-blue-100 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition text-xs"
                                 title="Selesai S1">
                             ✓
-                        </button>` : ''}
+                        </button>`
+                            : ""
+                        }
                     </div>
                 </td>
 
@@ -532,21 +689,29 @@
                     <span class="text-[9px] px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full font-black uppercase block mb-2">${statusRutin}</span>
 
                     <div class="flex justify-center gap-1 mt-2">
-                        ${item.noHpPic && !isCompletedRutin ? `
+                        ${
+                          item.noHpPic && !isCompletedRutin
+                            ? `
                         <a href="https://wa.me/${item.noHpPic}?text=${encodeURIComponent(waTextRutin)}"
                            target="_blank"
                            onclick="markAsRemindedRutin(${item.id})"
                            class="p-1.5 bg-emerald-100 text-emerald-600 rounded hover:bg-emerald-600 hover:text-white transition text-xs"
                            title="WA Service Rutin">
                             📱
-                        </a>` : ''}
+                        </a>`
+                            : ""
+                        }
 
-                        ${!isCompletedRutin ? `
+                        ${
+                          !isCompletedRutin
+                            ? `
                         <button onclick="confirmStatusUpdateRutin(${item.id}, 'COMPLETED')"
                                 class="p-1.5 bg-indigo-100 text-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition text-xs"
                                 title="Selesai Rutin">
                             ✓
-                        </button>` : ''}
+                        </button>`
+                            : ""
+                        }
                     </div>
                 </td>
 
@@ -566,58 +731,59 @@
         });
 
         updatePaginationUI(filteredData.length);
-        document.getElementById('showingCount').innerText = `Menampilkan ${filteredData.length} data`;
-    }
+        document.getElementById("showingCount").innerText = `Menampilkan ${filteredData.length} data`;
+      }
 
-    // ===== PAGINATION =====
-    function updatePaginationUI(totalItems) {
+      // ===== PAGINATION =====
+      function updatePaginationUI(totalItems) {
         const totalPages = Math.ceil(totalItems / rowsPerPage);
         const prevBtn = document.getElementById("prevBtn");
         const nextBtn = document.getElementById("nextBtn");
 
         prevBtn.disabled = currentPage === 1;
         nextBtn.disabled = currentPage >= totalPages;
-        document.getElementById('paginationInfo').innerText = `HALAMAN ${currentPage}`;
-    }
+        document.getElementById("paginationInfo").innerText = `HALAMAN ${currentPage}`;
+      }
 
-    function changePage(step) {
+      function changePage(step) {
         const totalPages = Math.ceil(filteredData.length / rowsPerPage);
         const newPage = currentPage + step;
         if (newPage >= 1 && newPage <= totalPages) {
-            currentPage = newPage;
-            renderTable();
+          currentPage = newPage;
+          renderTable();
         }
-    }
+      }
 
-    // ===== MODAL EDIT =====
-    function openEdit(id) {
-        const item = allServiceData.find(i => i.id === id);
-        if(!item) return;
+      // ===== MODAL EDIT =====
+      function openEdit(id) {
+        const item = allServiceData.find((i) => i.id === id);
+        if (!item) return;
         editingId = id;
 
-        document.getElementById('editTitlePlat').innerText = `PLAT: ${item.masterKendaraan?.noPlat || '-'} | RANGKA: ${item.masterKendaraan?.noRangka || '-'}`;
-        document.getElementById('modalEdit').classList.remove('hidden');
+        document.getElementById("editTitlePlat").innerText =
+          `PLAT: ${item.masterKendaraan?.noPlat || "-"} | RANGKA: ${item.masterKendaraan?.noRangka || "-"}`;
+        document.getElementById("modalEdit").classList.remove("hidden");
 
-        document.getElementById('modalForm').innerHTML = `
+        document.getElementById("modalForm").innerHTML = `
         <div class="flex flex-col">
             <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Segmen</label>
-            <input type="text" id="edit_segmen" value="${item.segmen || ''}" class="border p-2 rounded-lg text-sm bg-slate-50">
+            <input type="text" id="edit_segmen" value="${item.segmen || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
         </div>
         <div class="flex flex-col">
             <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Warna Mitra</label>
-            <input type="text" id="edit_warna" value="${item.warnaMitra || ''}" class="border p-2 rounded-lg text-sm bg-slate-50">
+            <input type="text" id="edit_warna" value="${item.warnaMitra || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
         </div>
         <div class="flex flex-col">
             <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl Delivery (BAST)</label>
-            <input type="date" id="edit_delivery" value="${item.tglDelivery || ''}" class="border p-2 rounded-lg text-sm bg-slate-50">
+            <input type="date" id="edit_delivery" value="${item.tglDelivery || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
         </div>
         <div class="flex flex-col">
             <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl STNK Terbit</label>
-            <input type="date" id="edit_stnk_terbit" value="${item.tglStnkTerbit || ''}" class="border p-2 rounded-lg text-sm bg-slate-50">
+            <input type="date" id="edit_stnk_terbit" value="${item.tglStnkTerbit || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
         </div>
         <div class="flex flex-col">
             <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Tgl STNK Berlaku</label>
-            <input type="date" id="edit_stnk_berlaku" value="${item.tglStnkBerlaku || ''}" class="border p-2 rounded-lg text-sm bg-slate-50">
+            <input type="date" id="edit_stnk_berlaku" value="${item.tglStnkBerlaku || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
         </div>
         <div class="flex flex-col">
             <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Jumlah Order</label>
@@ -625,317 +791,338 @@
         </div>
         <div class="flex flex-col col-span-1 md:col-span-2">
             <label class="text-[10px] font-black text-slate-400 uppercase mb-1">Lokasi Pengiriman</label>
-            <input type="text" id="edit_lokasi" value="${item.lokasiPengiriman || ''}" class="border p-2 rounded-lg text-sm bg-slate-50">
+            <input type="text" id="edit_lokasi" value="${item.lokasiPengiriman || ""}" class="border p-2 rounded-lg text-sm bg-slate-50">
         </div>
         <div class="flex flex-col col-span-1 md:col-span-2">
             <label class="text-[10px] font-black text-indigo-600 uppercase mb-1">No HP PIC (WA)</label>
-            <input type="text" id="edit_nohp" value="${item.noHpPic || ''}" class="border p-2 rounded-lg text-sm bg-slate-50 font-mono">
+            <input type="text" id="edit_nohp" value="${item.noHpPic || ""}" class="border p-2 rounded-lg text-sm bg-slate-50 font-mono">
         </div>
         <div class="flex items-center gap-2 mt-2 p-2 bg-indigo-50 rounded-lg col-span-1 md:col-span-2">
-            <input type="checkbox" id="edit_done_delivery" ${item.doneDelivery ? 'checked' : ''} class="w-4 h-4 accent-indigo-600 cursor-pointer">
+            <input type="checkbox" id="edit_done_delivery" ${item.doneDelivery ? "checked" : ""} class="w-4 h-4 accent-indigo-600 cursor-pointer">
             <label for="edit_done_delivery" class="text-xs font-black text-indigo-700 cursor-pointer uppercase">Sudah Terkirim (Done Delivery)</label>
         </div>
         `;
-    }
+      }
 
-    // ===== SAVE EDIT =====
-    async function saveEdit() {
+      // ===== SAVE EDIT =====
+      async function saveEdit() {
         const getVal = (id) => {
-            const el = document.getElementById(id);
-            if (!el) {
-                console.error("Element not found: " + id);
-                return null;
-            }
-            return el.type === 'checkbox' ? el.checked : el.value;
+          const el = document.getElementById(id);
+          if (!el) {
+            console.error("Element not found: " + id);
+            return null;
+          }
+          return el.type === "checkbox" ? el.checked : el.value;
         };
 
         const payload = {
-            segmen: getVal('edit_segmen') || '',
-            lokasiPengiriman: getVal('edit_lokasi') || '',
-            tglStnkTerbit: getVal('edit_stnk_terbit') || null,
-            tglStnkBerlaku: getVal('edit_stnk_berlaku') || null,
-            tglDelivery: getVal('edit_delivery') || null,
-            warnaMitra: getVal('edit_warna') || '',
-            jumlahOrder: parseInt(getVal('edit_jumlah')) || 1,
-            doneDelivery: getVal('edit_done_delivery') || false,
-            noHpPic: getVal('edit_nohp') || ''
+          segmen: getVal("edit_segmen") || "",
+          lokasiPengiriman: getVal("edit_lokasi") || "",
+          tglStnkTerbit: getVal("edit_stnk_terbit") || null,
+          tglStnkBerlaku: getVal("edit_stnk_berlaku") || null,
+          tglDelivery: getVal("edit_delivery") || null,
+          warnaMitra: getVal("edit_warna") || "",
+          jumlahOrder: parseInt(getVal("edit_jumlah")) || 1,
+          doneDelivery: getVal("edit_done_delivery") || false,
+          noHpPic: getVal("edit_nohp") || "",
         };
 
         try {
-            const res = await authFetch(`${API_BASE}/${editingId}`, {
+          const res = await authFetch(`${API_BASE}/${editingId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
 
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if(res.ok) {
-                Swal.fire('Berhasil', 'Data berhasil diperbarui', 'success');
-                closeModal();
-                await loadServiceData();
-            } else {
-                const errorText = await res.text();
-                Swal.fire('Gagal', `Gagal menyimpan: ${errorText}`, 'error');
-            }
+          if (res.ok) {
+            Swal.fire("Berhasil", "Data berhasil diperbarui", "success");
+            closeModal();
+            await loadServiceData();
+          } else {
+            const errorText = await res.text();
+            Swal.fire("Gagal", `Gagal menyimpan: ${errorText}`, "error");
+          }
         } catch (e) {
-            console.error('Save error:', e);
-            Swal.fire('Error', 'Gagal menghubungi server', 'error');
+          console.error("Save error:", e);
+          Swal.fire("Error", "Gagal menghubungi server", "error");
         }
-    }
+      }
 
-    // ===== CLOSE MODAL =====
-    function closeModal() {
-        document.getElementById('modalEdit').classList.add('hidden');
-    }
+      // ===== CLOSE MODAL =====
+      function closeModal() {
+        document.getElementById("modalEdit").classList.add("hidden");
+      }
 
-    // ===== MARK AS REMINDED =====
-    async function markAsRemindedRutin(id) {
+      // ===== MARK AS REMINDED =====
+      async function markAsRemindedRutin(id) {
         try {
-            await authFetch(`${API_BASE}/${id}/status?status=REMINDED`, { method: 'PATCH' });
-            setTimeout(() => { loadServiceData(); }, 2000);
+          await authFetch(`${API_BASE}/${id}/status?status=REMINDED`, { method: "PATCH" });
+          setTimeout(() => {
+            loadServiceData();
+          }, 2000);
         } catch (e) {
-            console.error("Failed to update WA status:", e);
+          console.error("Failed to update WA status:", e);
         }
-    }
+      }
 
-    async function markAsRemindedS1(id) {
+      async function markAsRemindedS1(id) {
         try {
-            // Gunakan endpoint yang sama, tapi untuk service pertama
-            const res = await authFetch(`${API_BASE}/${id}/status-pertama?status=REMINDED`, { method: 'PATCH' });
-            if (!res.ok) {
-                console.error("Status code:", res.status);
-                throw new Error('Failed to update');
-            }
-            setTimeout(() => { loadServiceData(); }, 2000);
+          // Gunakan endpoint yang sama, tapi untuk service pertama
+          const res = await authFetch(`${API_BASE}/${id}/status-pertama?status=REMINDED`, { method: "PATCH" });
+          if (!res.ok) {
+            console.error("Status code:", res.status);
+            throw new Error("Failed to update");
+          }
+          setTimeout(() => {
+            loadServiceData();
+          }, 2000);
         } catch (e) {
-            console.error("Failed to update WA status S1:", e);
-            Swal.fire('Error', 'Gagal update status Service 1 Bulan', 'error');
+          console.error("Failed to update WA status S1:", e);
+          Swal.fire("Error", "Gagal update status Service 1 Bulan", "error");
         }
-    }
+      }
 
-    // ===== DELETE ROW =====
-    async function deleteRow(id) {
+      // ===== DELETE ROW =====
+      async function deleteRow(id) {
         const confirm = await Swal.fire({
-            title: 'Hapus Data?',
-            text: "Data monitoring ini akan dihapus permanen.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            confirmButtonText: 'Ya, Hapus!'
+          title: "Hapus Data?",
+          text: "Data monitoring ini akan dihapus permanen.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#ef4444",
+          confirmButtonText: "Ya, Hapus!",
         });
 
-        if(confirm.isConfirmed) {
-            try {
-                const res = await authFetch(`${API_BASE}/${id}`, { method: 'DELETE' });
-                if(res.ok) {
-                    Swal.fire('Terhapus', 'Data telah dihapus', 'success');
-                    await loadServiceData();
-                } else {
-                    Swal.fire('Gagal', 'Gagal menghapus data', 'error');
-                }
-            } catch (e) {
-                console.error('Delete error:', e);
-                Swal.fire('Error', 'Gagal menghapus', 'error');
+        if (confirm.isConfirmed) {
+          try {
+            const res = await authFetch(`${API_BASE}/${id}`, { method: "DELETE" });
+            if (res.ok) {
+              Swal.fire("Terhapus", "Data telah dihapus", "success");
+              await loadServiceData();
+            } else {
+              Swal.fire("Gagal", "Gagal menghapus data", "error");
             }
+          } catch (e) {
+            console.error("Delete error:", e);
+            Swal.fire("Error", "Gagal menghapus", "error");
+          }
         }
-    }
+      }
 
-    // ===== CONFIRM STATUS UPDATE =====
-    async function confirmStatusUpdateRutin(id, newStatus) {
+      // ===== CONFIRM STATUS UPDATE =====
+      async function confirmStatusUpdateRutin(id, newStatus) {
         const resConfirm = await Swal.fire({
-            title: 'Service Rutin Selesai?',
-            text: "Status service rutin akan diubah menjadi COMPLETED.",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#4f46e5',
-            confirmButtonText: 'Ya, Selesai!'
+          title: "Service Rutin Selesai?",
+          text: "Status service rutin akan diubah menjadi COMPLETED.",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#4f46e5",
+          confirmButtonText: "Ya, Selesai!",
         });
 
         if (resConfirm.isConfirmed) {
-            try {
-                const res = await authFetch(`${API_BASE}/${id}/status?status=${newStatus}`, { method: 'PATCH' });
-                if (res.ok) {
-                    Swal.fire('Sukses', 'Status service rutin diperbarui', 'success');
-                    await loadServiceData();
-                } else {
-                    Swal.fire('Gagal', 'Gagal update status', 'error');
-                }
-            } catch (error) {
-                console.error('Status update error:', error);
-                Swal.fire('Error', 'Gagal koneksi', 'error');
+          try {
+            const res = await authFetch(`${API_BASE}/${id}/status?status=${newStatus}`, { method: "PATCH" });
+            if (res.ok) {
+              Swal.fire("Sukses", "Status service rutin diperbarui", "success");
+              await loadServiceData();
+            } else {
+              Swal.fire("Gagal", "Gagal update status", "error");
             }
+          } catch (error) {
+            console.error("Status update error:", error);
+            Swal.fire("Error", "Gagal koneksi", "error");
+          }
         }
-    }
+      }
 
-    async function confirmStatusUpdateS1(id, newStatus) {
+      async function confirmStatusUpdateS1(id, newStatus) {
         const resConfirm = await Swal.fire({
-            title: 'Service 1 Bulan Selesai?',
-            text: "Status service pertama akan diubah menjadi COMPLETED.",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3b82f6',
-            confirmButtonText: 'Ya, Selesai!'
+          title: "Service 1 Bulan Selesai?",
+          text: "Status service pertama akan diubah menjadi COMPLETED.",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#3b82f6",
+          confirmButtonText: "Ya, Selesai!",
         });
 
         if (resConfirm.isConfirmed) {
-            try {
-                const res = await authFetch(`${API_BASE}/${id}/status-pertama?status=${newStatus}`, { method: 'PATCH' });
-                if (res.ok) {
-                    Swal.fire('Sukses', 'Status service 1 bulan diperbarui', 'success');
-                    await loadServiceData();
-                } else {
-                    const errorText = await res.text();
-                    console.error('Server error:', errorText);
-                    Swal.fire('Gagal', `Gagal update status: ${errorText}`, 'error');
-                }
-            } catch (error) {
-                console.error('Status S1 update error:', error);
-                Swal.fire('Error', 'Gagal koneksi ke server', 'error');
+          try {
+            const res = await authFetch(`${API_BASE}/${id}/status-pertama?status=${newStatus}`, { method: "PATCH" });
+            if (res.ok) {
+              Swal.fire("Sukses", "Status service 1 bulan diperbarui", "success");
+              await loadServiceData();
+            } else {
+              const errorText = await res.text();
+              console.error("Server error:", errorText);
+              Swal.fire("Gagal", `Gagal update status: ${errorText}`, "error");
             }
+          } catch (error) {
+            console.error("Status S1 update error:", error);
+            Swal.fire("Error", "Gagal koneksi ke server", "error");
+          }
         }
-    }
+      }
 
-    // ===== UPDATE COUNTERS =====
-    function updateCounters() {
-        document.getElementById('count-ALL').innerText = allServiceData.length;
-        document.getElementById('count-S1').innerText = allServiceData.filter(i => (i.statusServicePertama || 'OPEN') === 'OPEN').length;
-        document.getElementById('count-RT').innerText = allServiceData.filter(i => ['OPEN', 'REMINDED'].includes(i.statusServiceRutin)).length;
-        document.getElementById('count-CP').innerText = allServiceData.filter(i => i.statusServiceRutin === 'COMPLETED').length;
-    }
+      // ===== UPDATE COUNTERS =====
+      function updateCounters() {
+        document.getElementById("count-ALL").innerText = allServiceData.length;
+        document.getElementById("count-S1").innerText = allServiceData.filter(
+          (i) => (i.statusServicePertama || "OPEN") === "OPEN",
+        ).length;
+        document.getElementById("count-RT").innerText = allServiceData.filter((i) =>
+          ["OPEN", "REMINDED"].includes(i.statusServiceRutin),
+        ).length;
+        document.getElementById("count-CP").innerText = allServiceData.filter(
+          (i) => i.statusServiceRutin === "COMPLETED",
+        ).length;
+      }
 
-    // ===== CHECK VEHICLE =====
-    async function checkVehicle() {
-        const nr = document.getElementById('searchNoRangka').value.trim();
-        if(!nr) {
-            Swal.fire({ icon: 'warning', title: 'Oops', text: 'Masukkan No Rangka' });
-            return;
+      // ===== CHECK VEHICLE =====
+      async function checkVehicle() {
+        const nr = document.getElementById("searchNoRangka").value.trim();
+        if (!nr) {
+          Swal.fire({ icon: "warning", title: "Oops", text: "Masukkan No Rangka" });
+          return;
         }
 
         try {
-            const res = await authFetch(`${API_MASTER}/search?noRangka=${nr}`);
-            if (!res) return;
+          const res = await authFetch(`${API_MASTER}/search?noRangka=${nr}`);
+          if (!res) return;
 
-            if(!res.ok) throw new Error('Not found');
+          if (!res.ok) throw new Error("Not found");
 
-            const data = await res.json();
-            currentMasterId = data.id;
-            document.getElementById('res_pelanggan').value = data.namaPelanggan || '-';
-            document.getElementById('res_plat').value = data.noPlat || 'BELUM ADA PLAT';
-            Swal.fire({ icon: 'success', title: 'Unit Ditemukan', timer: 1500, showConfirmButton: false });
+          const data = await res.json();
+          currentMasterId = data.id;
+          document.getElementById("res_pelanggan").value = data.namaPelanggan || "-";
+          document.getElementById("res_plat").value = data.noPlat || "BELUM ADA PLAT";
+          Swal.fire({ icon: "success", title: "Unit Ditemukan", timer: 1500, showConfirmButton: false });
         } catch (err) {
-            console.error('Vehicle check error:', err);
-            currentMasterId = null;
-            document.getElementById('res_pelanggan').value = '-';
-            document.getElementById('res_plat').value = '-';
-            Swal.fire({ icon: 'error', title: 'Tidak Ditemukan', text: 'Data kendaraan tidak ada di Master.' });
+          console.error("Vehicle check error:", err);
+          currentMasterId = null;
+          document.getElementById("res_pelanggan").value = "-";
+          document.getElementById("res_plat").value = "-";
+          Swal.fire({ icon: "error", title: "Tidak Ditemukan", text: "Data kendaraan tidak ada di Master." });
         }
-    }
+      }
 
-    // ===== SUBMIT BAST =====
-    async function submitBast() {
-        if(!currentMasterId) {
-            Swal.fire({ icon: 'warning', title: 'Stop!', text: 'Validasi No Rangka dulu!' });
-            return;
+      // ===== SUBMIT BAST =====
+      async function submitBast() {
+        if (!currentMasterId) {
+          Swal.fire({ icon: "warning", title: "Stop!", text: "Validasi No Rangka dulu!" });
+          return;
         }
 
         const payload = {
-            segmen: document.getElementById('in_segmen').value,
-            tglDelivery: document.getElementById('in_delivery').value,
-            tglStnkTerbit: document.getElementById('in_stnk_terbit').value,
-            tglStnkBerlaku: document.getElementById('in_stnk_berlaku').value,
-            lokasiPengiriman: document.getElementById('in_lokasi').value,
-            warnaMitra: document.getElementById('in_warna_mitra').value,
-            noHpPic: document.getElementById('in_nohp').value,
-            jumlahOrder: 1,
-            doneDelivery: true
+          segmen: document.getElementById("in_segmen").value,
+          tglDelivery: document.getElementById("in_delivery").value,
+          tglStnkTerbit: document.getElementById("in_stnk_terbit").value,
+          tglStnkBerlaku: document.getElementById("in_stnk_berlaku").value,
+          lokasiPengiriman: document.getElementById("in_lokasi").value,
+          warnaMitra: document.getElementById("in_warna_mitra").value,
+          noHpPic: document.getElementById("in_nohp").value,
+          jumlahOrder: 1,
+          doneDelivery: true,
         };
 
         try {
-            const res = await authFetch(`${API_BASE}/${currentMasterId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+          const res = await authFetch(`${API_BASE}/${currentMasterId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
 
-            if(res.ok) {
-                Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Data BAST berhasil disimpan' });
-                resetForm();
-                await loadServiceData();
-            } else {
-                const errorText = await res.text();
-                Swal.fire('Gagal', `Terjadi kesalahan: ${errorText}`, 'error');
-            }
+          if (res.ok) {
+            Swal.fire({ icon: "success", title: "Berhasil!", text: "Data BAST berhasil disimpan" });
+            resetForm();
+            await loadServiceData();
+          } else {
+            const errorText = await res.text();
+            Swal.fire("Gagal", `Terjadi kesalahan: ${errorText}`, "error");
+          }
         } catch (err) {
-            console.error('Submit BAST error:', err);
-            Swal.fire('Gagal', 'Terjadi kesalahan sistem', 'error');
+          console.error("Submit BAST error:", err);
+          Swal.fire("Gagal", "Terjadi kesalahan sistem", "error");
         }
-    }
+      }
 
-    // ===== FORMAT DATE =====
-    function formatDate(dateStr) {
-        if(!dateStr) return '-';
-        return new Date(dateStr).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-    }
+      // ===== FORMAT DATE =====
+      function formatDate(dateStr) {
+        if (!dateStr) return "-";
+        return new Date(dateStr).toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
+      }
 
-    // ===== RESET FORM =====
-    function resetForm() {
+      // ===== RESET FORM =====
+      function resetForm() {
         currentMasterId = null;
-        const fields = ['searchNoRangka','in_segmen','in_delivery','in_stnk_terbit','in_stnk_berlaku','in_warna_mitra','in_lokasi','in_nohp'];
-        fields.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.value = '';
+        const fields = [
+          "searchNoRangka",
+          "in_segmen",
+          "in_delivery",
+          "in_stnk_terbit",
+          "in_stnk_berlaku",
+          "in_warna_mitra",
+          "in_lokasi",
+          "in_nohp",
+        ];
+        fields.forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.value = "";
         });
-        document.getElementById('res_pelanggan').value = '-';
-        document.getElementById('res_plat').value = '-';
-    }
+        document.getElementById("res_pelanggan").value = "-";
+        document.getElementById("res_plat").value = "-";
+      }
 
-    function exportServiceExcel() {
+      function exportServiceExcel() {
         if (!filteredData || filteredData.length === 0) {
-            Swal.fire('Info', 'Tidak ada data untuk di-export', 'info');
-            return;
+          Swal.fire("Info", "Tidak ada data untuk di-export", "info");
+          return;
         }
 
-        const exportData = filteredData.map(item => {
-            const master = item.masterKendaraan || {};
+        const exportData = filteredData.map((item) => {
+          const master = item.masterKendaraan || {};
 
-            return {
-                // ===== MASTER =====
-                "No Plat": master.noPlat || '-',
-                "Nama Pelanggan": master.namaPelanggan || '-',
-                "No Rangka": master.noRangka || '-',
-                "No Mesin": master.noMesin || '-',
+          return {
+            // ===== MASTER =====
+            "No Plat": master.noPlat || "-",
+            "Nama Pelanggan": master.namaPelanggan || "-",
+            "No Rangka": master.noRangka || "-",
+            "No Mesin": master.noMesin || "-",
 
-                // ===== BAST =====
-                "Segmen": item.segmen || '-',
-                "Tanggal Delivery": item.tglDelivery || '-',
-                "Lokasi Pengiriman": item.lokasiPengiriman || '-',
-                "No HP PIC": item.noHpPic || '-',
+            // ===== BAST =====
+            Segmen: item.segmen || "-",
+            "Tanggal Delivery": item.tglDelivery || "-",
+            "Lokasi Pengiriman": item.lokasiPengiriman || "-",
+            "No HP PIC": item.noHpPic || "-",
 
-                // ===== SERVICE 1 =====
-                "Jadwal Service 1": item.jadwalServicePertama || '-',
-                "Status Service 1": item.statusServicePertama || 'OPEN',
+            // ===== SERVICE 1 =====
+            "Jadwal Service 1": item.jadwalServicePertama || "-",
+            "Status Service 1": item.statusServicePertama || "OPEN",
 
-                // ===== SERVICE RUTIN =====
-                "Jadwal Service Rutin": item.jadwalServiceRutin || '-',
-                "Status Service Rutin": item.statusServiceRutin || 'OPEN'
-            };
+            // ===== SERVICE RUTIN =====
+            "Jadwal Service Rutin": item.jadwalServiceRutin || "-",
+            "Status Service Rutin": item.statusServiceRutin || "OPEN",
+          };
         });
 
         const ws = XLSX.utils.json_to_sheet(exportData);
 
         // Auto width
-        ws['!cols'] = Object.keys(exportData[0]).map(() => ({ wch: 22 }));
+        ws["!cols"] = Object.keys(exportData[0]).map(() => ({ wch: 22 }));
 
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Service Monitoring");
 
         XLSX.writeFile(wb, "EV_Service_Monitoring.xlsx");
-    }
+      }
 
-    // ===== INIT ON LOAD =====
-    window.onload = initSystem;
-</script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+      function toggleServiceMenu() {
+        document.getElementById("serviceMobileMenu").classList.toggle("hidden");
+      }
 
-</body>
+      // ===== INIT ON LOAD =====
+      window.onload = initSystem;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  </body>
 </html>
