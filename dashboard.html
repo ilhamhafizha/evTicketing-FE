@@ -607,6 +607,18 @@
         window.location.href = "login.html";
       }
 
+      // === CONFIG BACKEND ===
+      // Ganti dengan URL Railway kamu
+        const BASE_URL = window.location.hostname.includes("localhost")
+        ? "http://localhost:8080"
+        : "https://ev-ticketing-production.up.railway.app";
+
+      const API = `${BASE_URL}/api/master-kendaraan`;
+
+      let currentPage = 0;
+      const pageSize = 5;
+      let currentMasterData = [];
+
       async function authFetch(url, options = {}) {
         const token = localStorage.getItem("token");
 
@@ -662,16 +674,6 @@
           }
         });
       }
-
-      // === CONFIG BACKEND ===
-      // Ganti dengan URL Railway kamu
-      const BASE_URL = "https://your-backend-url.up.railway.app";
-
-      const API = `${BASE_URL}/api/master-kendaraan`;
-
-      let currentPage = 0;
-      const pageSize = 5;
-      let currentMasterData = [];
 
       // Fungsi tambahan untuk mendeteksi key (camelCase vs snake_case)
       const gv = (obj, key) => {
