@@ -34,43 +34,36 @@
   <body class="bg-slate-50 text-slate-900">
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-[100]">
       <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
-        <!-- TOP BAR -->
         <div class="flex justify-between items-center h-16">
-          <!-- Logo -->
+          <!-- LEFT: Logo -->
           <div class="flex items-center gap-4">
             <a href="#" class="text-xl font-black text-slate-800 uppercase tracking-tighter italic">
               EV <span class="text-indigo-600">Tools</span>
             </a>
           </div>
 
-          <!-- Desktop Menu -->
+          <!-- DESKTOP MENU -->
           <div class="hidden md:flex items-center gap-1">
             <a
               href="ticketing.html"
-              id="nav-monitoring"
-              class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-indigo-50 text-indigo-600"
+              class="px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600"
             >
               📊 Monitoring Tiket
             </a>
 
             <a
               href="service.html"
-              id="nav-service"
-              class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+              class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
             >
               🔄 Service
             </a>
 
-            <a
-              href="dashboard.html"
-              id="nav-master"
-              class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
-            >
+            <a href="dashboard.html" class="px-4 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-indigo-600 hover:bg-indigo-50">
               🗄️ Database Master
             </a>
           </div>
 
-          <!-- Right Side -->
+          <!-- RIGHT -->
           <div class="flex items-center gap-2">
             <!-- Logout Desktop -->
             <button
@@ -95,9 +88,12 @@
           </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden pb-3 space-y-2">
-          <a href="ticketing.html" class="block px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600">
+        <!-- MOBILE MENU -->
+        <div id="mobileMenu" class="hidden md:hidden pb-4 space-y-2">
+          <a
+            href="ticketing.html"
+            class="block px-4 py-2 rounded-lg text-sm font-bold bg-indigo-50 text-indigo-600"
+          >
             📊 Monitoring Tiket
           </a>
 
@@ -105,10 +101,7 @@
             🔄 Service
           </a>
 
-          <a
-            href="dashboard.html"
-            class="block px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-indigo-50"
-          >
+          <a href="dashboard.html" class="block px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-indigo-50">
             🗄️ Database Master
           </a>
 
@@ -146,16 +139,8 @@
         <div class="flex flex-col lg:flex-row lg:items-center gap-4">
           <!-- SEARCH -->
           <div class="relative flex-1">
-            <input
-              id="searchInput"
-              type="text"
-              placeholder="Cari No Rangka / Nama Pelanggan..."
-              class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
-            />
-
-            <!-- Icon -->
             <svg
-              class="w-5 h-5 text-slate-400 absolute left-3 top-3.5"
+              class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -167,6 +152,13 @@
                 d="M21 21l-4.35-4.35M16 10a6 6 0 11-12 0 6 6 0 0112 0z"
               />
             </svg>
+            
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Cari No Rangka / Nama Pelanggan..."
+              class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-sm font-medium"
+            />
           </div>
 
           <!-- STATUS FILTER -->
@@ -184,30 +176,32 @@
           </div>
 
           <!-- ACTION BUTTONS -->
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-2 justify-end">
             <button
               onclick="searchTicket()"
-              class="px-5 py-3 bg-indigo-600 text-white rounded-xl font-bold uppercase text-sm tracking-wider hover:bg-indigo-700 transition shadow-sm"
+              class="px-6 py-3 bg-slate-800 text-white rounded-xl font-bold text-sm hover:bg-slate-700 transition shadow-sm flex items-center gap-2"
             >
               🔍 Cari
             </button>
 
             <button
               onclick="resetView()"
-              class="px-5 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold uppercase text-sm hover:bg-slate-100 transition"
+              class="px-5 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-50 transition shadow-sm flex items-center gap-2"
             >
-              Reset
+              ♻ Reset
             </button>
 
             <button
               onclick="exportTickets()"
-              class="px-6 py-3 bg-emerald-600 text-white rounded-xl font-bold uppercase text-sm tracking-wider hover:bg-emerald-700 transition shadow-md flex items-center gap-2"
+              class="px-6 py-3 bg-emerald-600 text-white rounded-xl font-bold text-sm hover:bg-emerald-700 transition shadow-sm flex items-center gap-2"
             >
-              <span>📥</span>
-              Export Excel
+              📥 Export
             </button>
           </div>
         </div>
+
+        <!-- Info kecil -->
+        <div class="mt-3 text-[11px] text-slate-400 font-medium">* Pencarian berdasarkan No Rangka atau Nama Pelanggan</div>
       </div>
 
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -255,7 +249,7 @@
       </div>
     </div>
 
-    <div id="createModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[60]">
+    <div id="createModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[9999]">
       <div class="bg-white w-full max-w-xl h-full shadow-2xl flex flex-col animate-slide-in">
         <div class="p-6 border-b flex justify-between items-center bg-slate-50">
           <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest italic">Input Tiket Baru</h2>
@@ -373,7 +367,7 @@
       </div>
     </div>
 
-    <div id="actionModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[55]">
+    <div id="actionModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[9999]">
       <div class="bg-white w-full max-w-xl h-full shadow-2xl flex flex-col animate-slide-in">
         <div class="p-6 border-b flex justify-between items-center bg-slate-50">
           <h2 id="actionTitle" class="text-xl font-black text-slate-800 uppercase italic">
@@ -745,12 +739,20 @@
       // 2. CREATE TICKET LOGIC
       function openCreateModal() {
         document.getElementById("createModal").classList.remove("hidden");
+        document.getElementById("searchStep").classList.remove("hidden");
+        document.getElementById("createForm").classList.add("hidden");
+        document.getElementById("nrInput").value = "";
+        document.getElementById("unitFoundCard").classList.add("hidden");
+        document.getElementById("createForm").reset();
+        document.getElementById("targetMasterId").value = "";
       }
+      
       function closeCreateModal() {
         document.getElementById("createModal").classList.add("hidden");
+        document.getElementById("searchStep").classList.remove("hidden");
+        document.getElementById("createForm").classList.add("hidden");
         document.getElementById("createForm").reset();
         document.getElementById("nrInput").value = "";
-        document.getElementById("createForm").classList.add("hidden");
         document.getElementById("unitFoundCard").classList.add("hidden");
       }
 
@@ -777,8 +779,12 @@
       }
 
       async function checkUnit() {
-        const nr = document.getElementById("nrInput").value;
-        if (!nr) return;
+        const nr = document.getElementById("nrInput").value.trim().toUpperCase();
+        if (!nr) {
+          Swal.fire("Info", "Masukkan No Rangka terlebih dahulu", "info");
+          return;
+        }
+        
         try {
           const res = await authFetch(`${MASTER_API}/search?noRangka=${nr}`);
           if (!res) return;
@@ -1001,8 +1007,6 @@
         if (!keyword) return loadTickets();
 
         try {
-          // Menggunakan URLSearchParams agar pembentukan query string lebih aman
-          // Kita coba cari berdasarkan noRangka, jika tidak ada baru pindah ke noMesin di sisi BE
           const params = new URLSearchParams({ noRangka: keyword });
 
           const res = await authFetch(`${API}/monitoring/search?${params.toString()}`);
@@ -1016,7 +1020,6 @@
             renderTable(data.content || data);
             currentTicketData = data.content || data;
           } else {
-            // Jika pencarian No Rangka gagal (404/400), coba cari berdasarkan No Mesin
             const paramsMesin = new URLSearchParams({ noMesin: keyword });
             const resMesin = await authFetch(`${API}/monitoring/search?${paramsMesin.toString()}`);
             if (!resMesin) return;
@@ -1064,34 +1067,25 @@
         }
 
         const exportData = currentTicketData.map((i) => ({
-          // ===== DATA PELANGGAN & UNIT =====
           "ID Tiket": i.id || i.ticketId,
           "Nama Pelanggan": i.namaPelanggan || "-",
           "No Rangka": i.noRangka || "-",
           "Merk / Tipe Unit": (i.merkTipeKendaraan || "-").replace(/_/g, " "),
           "Odometer (KM)": i.odometer || 0,
-
-          // ===== INFORMASI KELUHAN =====
           "Kategori Tiket": i.kategoriTiket || "-",
           "Kategori Kerusakan": i.kategoriKerusakan || "-",
           "Part Kerusakan": i.partKerusakan || "-",
           "Detail Keluhan": i.keterangan || "-",
           "Tanggal Masuk": i.tanggalMasuk || "-",
-
-          // ===== STATUS =====
           "Status Tiket": (i.statusTiket || "-").replace(/_/g, " "),
           "Tanggal Selesai": i.tanggalSelesai || "-",
           "Update Tindakan": i.updateAction || "-",
           "Aging (Hari)": i.agingHari || 0,
-
-          // ===== PIC =====
           "Nama PIC": i.picPelapor || "-",
           "No HP PIC": i.noHpPelapor || "-",
         }));
 
         const ws = XLSX.utils.json_to_sheet(exportData);
-
-        // Auto width kolom biar rapi
         ws["!cols"] = Object.keys(exportData[0]).map(() => ({ wch: 20 }));
 
         const wb = XLSX.utils.book_new();
