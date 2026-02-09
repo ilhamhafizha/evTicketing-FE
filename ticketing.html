@@ -1,450 +1,613 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EV Ticketing Tools | Monitoring & Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .custom-scroll::-webkit-scrollbar { width: 5px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        .animate-slide-in { animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap");
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      .custom-scroll::-webkit-scrollbar {
+        width: 5px;
+      }
+      .custom-scroll::-webkit-scrollbar-thumb {
+        background: #e2e8f0;
+        border-radius: 10px;
+      }
+      .animate-slide-in {
+        animation: slideIn 0.3s ease-out;
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
     </style>
-</head>
-<body class="bg-slate-50 text-slate-900">
-
-<nav class="bg-white border-b border-slate-200 sticky top-0 z-[100]">
-    <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
+  </head>
+  <body class="bg-slate-50 text-slate-900">
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-[100]">
+      <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
         <div class="flex justify-between items-center h-16">
-            <div class="flex items-center gap-8">
-                <a href="#" class="text-xl font-black text-slate-800 uppercase tracking-tighter italic">
-                    EV <span class="text-indigo-600">Tools</span>
-                </a>
+          <div class="flex items-center gap-8">
+            <a href="#" class="text-xl font-black text-slate-800 uppercase tracking-tighter italic">
+              EV <span class="text-indigo-600">Tools</span>
+            </a>
 
-                <div class="hidden md:flex items-center gap-1">
-                    <a href="ticketing.html" id="nav-monitoring" class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-indigo-50 text-indigo-600">
-                        📊 Monitoring Tiket
-                    </a>
-                    <a href="service.html" id="nav-service" class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500  hover:text-indigo-600 hover:bg-indigo-50">
-                        🔄 Service
-                    </a>
-                    <a href="dashboard.html" id="nav-master" class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500  hover:text-indigo-600 hover:bg-indigo-50">
-                        🗄️ Database Master
-                    </a>
-                </div>
+            <div class="hidden md:flex items-center gap-1">
+              <a
+                href="ticketing.html"
+                id="nav-monitoring"
+                class="px-4 py-2 rounded-lg text-sm font-bold transition-all bg-indigo-50 text-indigo-600"
+              >
+                📊 Monitoring Tiket
+              </a>
+              <a
+                href="service.html"
+                id="nav-service"
+                class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+              >
+                🔄 Service
+              </a>
+              <a
+                href="dashboard.html"
+                id="nav-master"
+                class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+              >
+                🗄️ Database Master
+              </a>
             </div>
+          </div>
 
-            <div class="flex items-center gap-3">
-                <button onclick="logout()"
-                        class="text-[10px] font-black bg-red-50 text-red-600 px-4 py-2 rounded-full uppercase tracking-widest hover:bg-red-600 hover:text-white transition">
-                    Logout
-                </button>
-            </div>
-
+          <div class="flex items-center gap-3">
+            <button
+              onclick="logout()"
+              class="text-[10px] font-black bg-red-50 text-red-600 px-4 py-2 rounded-full uppercase tracking-widest hover:bg-red-600 hover:text-white transition"
+            >
+              Logout
+            </button>
+          </div>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<div class="container mx-auto p-4 lg:p-8 max-w-7xl">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+    <div class="container mx-auto p-4 lg:p-8 max-w-7xl">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-            <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tighter">EV Ticket <span class="text-indigo-600">Monitoring</span></h1>
-            <p class="text-slate-500 text-sm font-medium">Manajemen Keluhan & Operasional Unit</p>
+          <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tighter">
+            EV Ticket <span class="text-indigo-600">Monitoring</span>
+          </h1>
+          <p class="text-slate-500 text-sm font-medium">Manajemen Keluhan & Operasional Unit</p>
         </div>
-        <button onclick="openCreateModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl shadow-lg transition-all flex items-center gap-2 font-bold uppercase text-sm tracking-widest">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            Buat Tiket Baru
+        <button
+          onclick="openCreateModal()"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl shadow-lg transition-all flex items-center gap-2 font-bold uppercase text-sm tracking-widest"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          Buat Tiket Baru
         </button>
-    </div>
+      </div>
 
-    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
-
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
         <!-- FILTER BAR -->
         <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+          <!-- SEARCH -->
+          <div class="relative flex-1">
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Cari No Rangka / Nama Pelanggan..."
+              class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+            />
 
-            <!-- SEARCH -->
-            <div class="relative flex-1">
-                <input id="searchInput"
-                       type="text"
-                       placeholder="Cari No Rangka / Nama Pelanggan..."
-                       class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium">
+            <!-- Icon -->
+            <svg
+              class="w-5 h-5 text-slate-400 absolute left-3 top-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-4.35-4.35M16 10a6 6 0 11-12 0 6 6 0 0112 0z"
+              />
+            </svg>
+          </div>
 
-                <!-- Icon -->
-                <svg class="w-5 h-5 text-slate-400 absolute left-3 top-3.5"
-                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          d="M21 21l-4.35-4.35M16 10a6 6 0 11-12 0 6 6 0 0112 0z"/>
-                </svg>
-            </div>
+          <!-- STATUS FILTER -->
+          <div class="w-full lg:w-56">
+            <select
+              id="statusFilter"
+              onchange="filterByStatus()"
+              class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-600"
+            >
+              <option value="">Semua Status</option>
+              <option value="OPEN">OPEN</option>
+              <option value="ON_PROGRESS">ON PROGRESS</option>
+              <option value="CLOSED">CLOSED</option>
+            </select>
+          </div>
 
-            <!-- STATUS FILTER -->
-            <div class="w-full lg:w-56">
-                <select id="statusFilter"
-                        onchange="filterByStatus()"
-                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-600">
-                    <option value="">Semua Status</option>
-                    <option value="OPEN">OPEN</option>
-                    <option value="ON_PROGRESS">ON PROGRESS</option>
-                    <option value="CLOSED">CLOSED</option>
-                </select>
-            </div>
+          <!-- ACTION BUTTONS -->
+          <div class="flex flex-wrap gap-2">
+            <button
+              onclick="searchTicket()"
+              class="px-5 py-3 bg-indigo-600 text-white rounded-xl font-bold uppercase text-sm tracking-wider hover:bg-indigo-700 transition shadow-sm"
+            >
+              🔍 Cari
+            </button>
 
-            <!-- ACTION BUTTONS -->
-            <div class="flex flex-wrap gap-2">
+            <button
+              onclick="resetView()"
+              class="px-5 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold uppercase text-sm hover:bg-slate-100 transition"
+            >
+              Reset
+            </button>
 
-                <button onclick="searchTicket()"
-                        class="px-5 py-3 bg-indigo-600 text-white rounded-xl font-bold uppercase text-sm tracking-wider hover:bg-indigo-700 transition shadow-sm">
-                    🔍 Cari
-                </button>
-
-                <button onclick="resetView()"
-                        class="px-5 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold uppercase text-sm hover:bg-slate-100 transition">
-                    Reset
-                </button>
-
-                <button onclick="exportTickets()"
-                        class="px-6 py-3 bg-emerald-600 text-white rounded-xl font-bold uppercase text-sm tracking-wider hover:bg-emerald-700 transition shadow-md flex items-center gap-2">
-                    <span>📥</span>
-                    Export Excel
-                </button>
-
-            </div>
-
+            <button
+              onclick="exportTickets()"
+              class="px-6 py-3 bg-emerald-600 text-white rounded-xl font-bold uppercase text-sm tracking-wider hover:bg-emerald-700 transition shadow-md flex items-center gap-2"
+            >
+              <span>📥</span>
+              Export Excel
+            </button>
+          </div>
         </div>
+      </div>
 
-    </div>
-
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-slate-50 border-b border-slate-200 text-[11px] uppercase font-bold text-slate-500 tracking-widest">
-                <tr>
-                    <th class="px-6 py-4 text-center">ID Tiket</th>
-                    <th class="px-6 py-4">Pelanggan & Unit</th>
-                    <th class="px-6 py-4">Status & Aging</th>
-                    <th class="px-6 py-4">Kategori & Part</th>
-                    <th class="px-6 py-4 text-center">Aksi</th>
-                </tr>
-                </thead>
-                <tbody id="ticketTable" class="divide-y divide-slate-100 text-sm"></tbody>
-            </table>
-            <div id="paginationNav" class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-between items-center">
-                <div class="text-xs text-slate-500 font-medium uppercase tracking-wider">
-                    Halaman <span id="currentPageDisplay" class="text-indigo-600 font-bold">1</span>
-                </div>
-                <div class="flex gap-2">
-                    <button id="prevBtn" onclick="changePage(-1)"
-                            class="px-4 py-2 bg-white border rounded-lg text-sm font-bold shadow-sm hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                        Previous
-                    </button>
-
-                    <button id="nextBtn" onclick="changePage(1)"
-                            class="px-4 py-2 bg-white border rounded-lg text-sm font-bold shadow-sm
-           hover:bg-slate-50 transition
-           disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none">
-                        Next
-                    </button>
-                </div>
+          <table class="w-full text-left border-collapse">
+            <thead
+              class="bg-slate-50 border-b border-slate-200 text-[11px] uppercase font-bold text-slate-500 tracking-widest"
+            >
+              <tr>
+                <th class="px-6 py-4 text-center">ID Tiket</th>
+                <th class="px-6 py-4">Pelanggan & Unit</th>
+                <th class="px-6 py-4">Status & Aging</th>
+                <th class="px-6 py-4">Kategori & Part</th>
+                <th class="px-6 py-4 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="ticketTable" class="divide-y divide-slate-100 text-sm"></tbody>
+          </table>
+          <div
+            id="paginationNav"
+            class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-between items-center"
+          >
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wider">
+              Halaman <span id="currentPageDisplay" class="text-indigo-600 font-bold">1</span>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="flex gap-2">
+              <button
+                id="prevBtn"
+                onclick="changePage(-1)"
+                class="px-4 py-2 bg-white border rounded-lg text-sm font-bold shadow-sm hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
 
-<div id="createModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[60]">
-    <div class="bg-white w-full max-w-xl h-full shadow-2xl flex flex-col animate-slide-in">
+              <button
+                id="nextBtn"
+                onclick="changePage(1)"
+                class="px-4 py-2 bg-white border rounded-lg text-sm font-bold shadow-sm hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="createModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[60]">
+      <div class="bg-white w-full max-w-xl h-full shadow-2xl flex flex-col animate-slide-in">
         <div class="p-6 border-b flex justify-between items-center bg-slate-50">
-            <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest italic">Input Tiket Baru</h2>
-            <button type="button" onclick="closeCreateModal()" class="text-slate-400 hover:text-slate-900 transition text-2xl font-bold">&times;</button>
+          <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest italic">Input Tiket Baru</h2>
+          <button
+            type="button"
+            onclick="closeCreateModal()"
+            class="text-slate-400 hover:text-slate-900 transition text-2xl font-bold"
+          >
+            &times;
+          </button>
         </div>
         <div class="flex-1 overflow-y-auto p-8 custom-scroll">
-            <div id="searchStep">
-                <label class="text-[11px] font-bold mb-2 uppercase block text-indigo-500">Langkah 1: Verifikasi Unit</label>
-                <div class="flex gap-2 mb-6">
-                    <input type="text" id="nrInput" placeholder="No Rangka..." class="flex-1 border p-3 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-indigo-500 uppercase">
-                    <button type="button" onclick="checkUnit()" class="bg-slate-800 text-white px-6 rounded-xl font-bold uppercase">CEK</button>
-                </div>
-                <div id="unitFoundCard" class="hidden p-4 rounded-xl border-2 border-dashed border-indigo-100 bg-indigo-50/50 mb-6 transition-all">
-                    <p id="dispCust" class="font-black text-slate-800 uppercase"></p>
-                    <p id="dispUnit" class="text-xs text-indigo-600 font-bold mt-1 uppercase"></p>
-                </div>
+          <div id="searchStep">
+            <label class="text-[11px] font-bold mb-2 uppercase block text-indigo-500">Langkah 1: Verifikasi Unit</label>
+            <div class="flex gap-2 mb-6">
+              <input
+                type="text"
+                id="nrInput"
+                placeholder="No Rangka..."
+                class="flex-1 border p-3 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-indigo-500 uppercase"
+              />
+              <button
+                type="button"
+                onclick="checkUnit()"
+                class="bg-slate-800 text-white px-6 rounded-xl font-bold uppercase"
+              >
+                CEK
+              </button>
+            </div>
+            <div
+              id="unitFoundCard"
+              class="hidden p-4 rounded-xl border-2 border-dashed border-indigo-100 bg-indigo-50/50 mb-6 transition-all"
+            >
+              <p id="dispCust" class="font-black text-slate-800 uppercase"></p>
+              <p id="dispUnit" class="text-xs text-indigo-600 font-bold mt-1 uppercase"></p>
+            </div>
+          </div>
+
+          <form id="createForm" class="hidden space-y-4 pb-10">
+            <input type="hidden" id="targetMasterId" />
+            <h3 class="font-bold text-slate-400 text-[10px] uppercase tracking-widest border-b pb-1">
+              Langkah 2: Detail Keluhan
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1">TGL MASUK</label
+                ><input type="date" id="cTglMasuk" class="border p-2 rounded-lg bg-slate-50" required />
+              </div>
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1">ODOMETER</label
+                ><input type="number" id="cOdo" class="border p-2 rounded-lg bg-slate-50" placeholder="KM" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1">KATEGORI TIKET</label>
+                <select id="cKat" class="border p-2 rounded-lg bg-white">
+                  <option value="KELUHAN">KELUHAN</option>
+                  <option value="MAINTENANCE">MAINTENANCE</option>
+                  <option value="ASURANSI">ASURANSI</option>
+                </select>
+              </div>
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1">KAT. KERUSAKAN</label>
+                <select id="cKatRusak" class="border p-2 rounded-lg bg-white" required>
+                  <option value="KERUSAKAN_UNIT">KERUSAKAN UNIT</option>
+                  <option value="KLAIM_ASURANSI">KLAIM ASURANSI</option>
+                  <option value="KLAIM_WARRANTY">KLAIM WARRANTY</option>
+                  <option value="KECELAKAAN">KECELAKAAN</option>
+                  <option value="PREVENTIF">PREVENTIF</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-[11px] font-bold mb-1">PART KERUSAKAN</label
+              ><input
+                type="text"
+                id="cPart"
+                class="border p-2 rounded-lg bg-slate-50"
+                placeholder="Misal: Battery, Motor, AC..."
+              />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1">PIC PELAPOR</label
+                ><input type="text" id="cPic" class="border p-2 rounded-lg bg-slate-50" />
+              </div>
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1">NO HP</label
+                ><input type="text" id="cHp" class="border p-2 rounded-lg bg-slate-50" />
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-[11px] font-bold mb-1">DETAIL KELUHAN</label
+              ><textarea id="cKet" rows="3" class="border p-2 rounded-lg bg-slate-50" required></textarea>
             </div>
 
-            <form id="createForm" class="hidden space-y-4 pb-10">
-                <input type="hidden" id="targetMasterId">
-                <h3 class="font-bold text-slate-400 text-[10px] uppercase tracking-widest border-b pb-1">Langkah 2: Detail Keluhan</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex flex-col"><label class="text-[11px] font-bold mb-1">TGL MASUK</label><input type="date" id="cTglMasuk" class="border p-2 rounded-lg bg-slate-50" required></div>
-                    <div class="flex flex-col"><label class="text-[11px] font-bold mb-1">ODOMETER</label><input type="number" id="cOdo" class="border p-2 rounded-lg bg-slate-50" placeholder="KM"></div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex flex-col">
-                        <label class="text-[11px] font-bold mb-1">KATEGORI TIKET</label>
-                        <select id="cKat" class="border p-2 rounded-lg bg-white">
-                            <option value="KELUHAN">KELUHAN</option>
-                            <option value="MAINTENANCE">MAINTENANCE</option>
-                            <option value="ASURANSI">ASURANSI</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-[11px] font-bold mb-1">KAT. KERUSAKAN</label>
-                        <select id="cKatRusak" class="border p-2 rounded-lg bg-white" required>
-                            <option value="KERUSAKAN_UNIT">KERUSAKAN UNIT</option>
-                            <option value="KLAIM_ASURANSI">KLAIM ASURANSI</option>
-                            <option value="KLAIM_WARRANTY">KLAIM WARRANTY</option>
-                            <option value="KECELAKAAN">KECELAKAAN</option>
-                            <option value="PREVENTIF">PREVENTIF</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="flex flex-col"><label class="text-[11px] font-bold mb-1">PART KERUSAKAN</label><input type="text" id="cPart" class="border p-2 rounded-lg bg-slate-50" placeholder="Misal: Battery, Motor, AC..."></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex flex-col"><label class="text-[11px] font-bold mb-1">PIC PELAPOR</label><input type="text" id="cPic" class="border p-2 rounded-lg bg-slate-50"></div>
-                    <div class="flex flex-col"><label class="text-[11px] font-bold mb-1">NO HP</label><input type="text" id="cHp" class="border p-2 rounded-lg bg-slate-50"></div>
-                </div>
-                <div class="flex flex-col"><label class="text-[11px] font-bold mb-1">DETAIL KELUHAN</label><textarea id="cKet" rows="3" class="border p-2 rounded-lg bg-slate-50" required></textarea></div>
-
-                <div class="flex flex-col gap-3 mt-6">
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl uppercase tracking-widest shadow-lg hover:bg-indigo-700 transition">Simpan Tiket</button>
-                    <button type="button" onclick="closeCreateModal()" class="w-full bg-slate-100 text-slate-500 font-bold py-3 rounded-xl uppercase text-sm">Batal</button>
-                </div>
-            </form>
+            <div class="flex flex-col gap-3 mt-6">
+              <button
+                type="submit"
+                class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl uppercase tracking-widest shadow-lg hover:bg-indigo-700 transition"
+              >
+                Simpan Tiket
+              </button>
+              <button
+                type="button"
+                onclick="closeCreateModal()"
+                class="w-full bg-slate-100 text-slate-500 font-bold py-3 rounded-xl uppercase text-sm"
+              >
+                Batal
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-</div>
 
-<div id="actionModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[55]">
-    <div class="bg-white w-full max-w-xl h-full shadow-2xl flex flex-col animate-slide-in">
+    <div id="actionModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end z-[55]">
+      <div class="bg-white w-full max-w-xl h-full shadow-2xl flex flex-col animate-slide-in">
         <div class="p-6 border-b flex justify-between items-center bg-slate-50">
-            <h2 id="actionTitle" class="text-xl font-black text-slate-800 uppercase italic">Update <span class="text-indigo-600">Ticket</span></h2>
-            <button type="button" onclick="closeActionModal()" class="text-slate-400 hover:text-slate-900 transition text-2xl font-bold">&times;</button>
+          <h2 id="actionTitle" class="text-xl font-black text-slate-800 uppercase italic">
+            Update <span class="text-indigo-600">Ticket</span>
+          </h2>
+          <button
+            type="button"
+            onclick="closeActionModal()"
+            class="text-slate-400 hover:text-slate-900 transition text-2xl font-bold"
+          >
+            &times;
+          </button>
         </div>
 
         <div id="detailView" class="hidden flex-1 overflow-y-auto p-8 custom-scroll"></div>
 
         <form id="actionForm" class="hidden flex-1 overflow-y-auto p-8 custom-scroll space-y-4">
-            <input type="hidden" id="actionTicketId">
-            <input type="hidden" id="actionType">
+          <input type="hidden" id="actionTicketId" />
+          <input type="hidden" id="actionType" />
 
-            <div id="editArea" class="space-y-4">
-                <h3 class="font-bold text-indigo-600 text-[10px] uppercase tracking-widest border-b pb-1">Edit Data Keluhan</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex flex-col"><label class="text-[11px] font-bold mb-1 uppercase">Tgl Masuk</label><input type="date" id="eTglMasuk" class="border p-2 rounded-lg bg-slate-50"></div>
-                    <div class="flex flex-col"><label class="text-[11px] font-bold mb-1 uppercase">Odometer</label><input type="number" id="eOdo" class="border p-2 rounded-lg bg-slate-50"></div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex flex-col">
-                        <label class="text-[11px] font-bold mb-1 uppercase">Kategori Tiket</label>
-                        <select id="eKat" class="border p-2 rounded-lg">
-                            <option value="KELUHAN">KELUHAN</option>
-                            <option value="MAINTENANCE">MAINTENANCE</option>
-                            <option value="ASURANSI">ASURANSI</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-[11px] font-bold mb-1 uppercase">Kat. Kerusakan</label>
-                        <select id="eKatRusak" class="border p-2 rounded-lg">
-                            <option value="KERUSAKAN_UNIT">KERUSAKAN UNIT</option>
-                            <option value="KLAIM_ASURANSI">KLAIM ASURANSI</option>
-                            <option value="KLAIM_WARRANTY">KLAIM WARRANTY</option>
-                            <option value="KECELAKAAN">KECELAKAAN</option>
-                            <option value="PREVENTIF">PREVENTIF</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="flex flex-col"><label class="text-[11px] font-bold mb-1 uppercase">Part Kerusakan</label><input type="text" id="ePart" class="border p-2 rounded-lg bg-slate-50"></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex flex-col"><label class="text-[11px] font-bold mb-1 uppercase">PIC Pelapor</label><input type="text" id="ePic" class="border p-2 rounded-lg bg-slate-50"></div>
-                    <div class="flex flex-col"><label class="text-[11px] font-bold mb-1 uppercase">No HP</label><input type="text" id="eHp" class="border p-2 rounded-lg bg-slate-50"></div>
-                </div>
-                <div class="flex flex-col"><label class="text-[11px] font-bold mb-1 uppercase">Keluhan</label><textarea id="eKet" rows="3" class="border p-2 rounded-lg bg-slate-50"></textarea></div>
+          <div id="editArea" class="space-y-4">
+            <h3 class="font-bold text-indigo-600 text-[10px] uppercase tracking-widest border-b pb-1">
+              Edit Data Keluhan
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1 uppercase">Tgl Masuk</label
+                ><input type="date" id="eTglMasuk" class="border p-2 rounded-lg bg-slate-50" />
+              </div>
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1 uppercase">Odometer</label
+                ><input type="number" id="eOdo" class="border p-2 rounded-lg bg-slate-50" />
+              </div>
             </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1 uppercase">Kategori Tiket</label>
+                <select id="eKat" class="border p-2 rounded-lg">
+                  <option value="KELUHAN">KELUHAN</option>
+                  <option value="MAINTENANCE">MAINTENANCE</option>
+                  <option value="ASURANSI">ASURANSI</option>
+                </select>
+              </div>
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1 uppercase">Kat. Kerusakan</label>
+                <select id="eKatRusak" class="border p-2 rounded-lg">
+                  <option value="KERUSAKAN_UNIT">KERUSAKAN UNIT</option>
+                  <option value="KLAIM_ASURANSI">KLAIM ASURANSI</option>
+                  <option value="KLAIM_WARRANTY">KLAIM WARRANTY</option>
+                  <option value="KECELAKAAN">KECELAKAAN</option>
+                  <option value="PREVENTIF">PREVENTIF</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-[11px] font-bold mb-1 uppercase">Part Kerusakan</label
+              ><input type="text" id="ePart" class="border p-2 rounded-lg bg-slate-50" />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1 uppercase">PIC Pelapor</label
+                ><input type="text" id="ePic" class="border p-2 rounded-lg bg-slate-50" />
+              </div>
+              <div class="flex flex-col">
+                <label class="text-[11px] font-bold mb-1 uppercase">No HP</label
+                ><input type="text" id="eHp" class="border p-2 rounded-lg bg-slate-50" />
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-[11px] font-bold mb-1 uppercase">Keluhan</label
+              ><textarea id="eKet" rows="3" class="border p-2 rounded-lg bg-slate-50"></textarea>
+            </div>
+          </div>
 
-            <div id="closeArea" class="hidden p-6 rounded-xl bg-green-50 border-2 border-green-100 space-y-4">
-                <h3 class="font-bold text-green-700 text-[10px] uppercase tracking-widest border-b border-green-200 pb-1">Close Tiket</h3>
-                <div class="flex flex-col"><label class="text-[11px] font-bold mb-1 uppercase">Tgl Selesai</label><input type="date" id="cTglSelesai" class="border p-2 rounded-lg"></div>
-                <div class="flex flex-col"><label class="text-[11px] font-bold mb-1 uppercase">Update Action</label><textarea id="cUpdAction" rows="3" class="border p-2 rounded-lg" placeholder="Tindakan perbaikan yang telah dilakukan..."></textarea></div>
-                <input type="hidden" id="cKetClose" value="Unit Selesai Diperbaiki">
+          <div id="closeArea" class="hidden p-6 rounded-xl bg-green-50 border-2 border-green-100 space-y-4">
+            <h3 class="font-bold text-green-700 text-[10px] uppercase tracking-widest border-b border-green-200 pb-1">
+              Close Tiket
+            </h3>
+            <div class="flex flex-col">
+              <label class="text-[11px] font-bold mb-1 uppercase">Tgl Selesai</label
+              ><input type="date" id="cTglSelesai" class="border p-2 rounded-lg" />
             </div>
+            <div class="flex flex-col">
+              <label class="text-[11px] font-bold mb-1 uppercase">Update Action</label
+              ><textarea
+                id="cUpdAction"
+                rows="3"
+                class="border p-2 rounded-lg"
+                placeholder="Tindakan perbaikan yang telah dilakukan..."
+              ></textarea>
+            </div>
+            <input type="hidden" id="cKetClose" value="Unit Selesai Diperbaiki" />
+          </div>
 
-            <div class="flex flex-col gap-3 mt-8 pb-10">
-                <button type="submit" class="w-full bg-slate-800 text-white font-black py-4 rounded-xl uppercase tracking-widest hover:bg-slate-700 transition shadow-lg">Simpan Perubahan</button>
-                <button type="button" onclick="closeActionModal()" class="w-full bg-slate-100 text-slate-500 font-black py-4 rounded-xl uppercase tracking-widest hover:bg-slate-200 transition">Batal</button>
-            </div>
+          <div class="flex flex-col gap-3 mt-8 pb-10">
+            <button
+              type="submit"
+              class="w-full bg-slate-800 text-white font-black py-4 rounded-xl uppercase tracking-widest hover:bg-slate-700 transition shadow-lg"
+            >
+              Simpan Perubahan
+            </button>
+            <button
+              type="button"
+              onclick="closeActionModal()"
+              class="w-full bg-slate-100 text-slate-500 font-black py-4 rounded-xl uppercase tracking-widest hover:bg-slate-200 transition"
+            >
+              Batal
+            </button>
+          </div>
         </form>
+      </div>
     </div>
-</div>
 
-<script>
-    const token = localStorage.getItem("token");
-    if (!token) {
+    <script>
+    
+    // Auto detect environment (local / production)
+      const BASE_URL = window.location.hostname.includes("localhost")
+        ? "http://localhost:8080"
+        : "https://ev-ticketing-production.up.railway.app";
+
+      const API = BASE_URL + "/api/tickets";
+      const MASTER_API = BASE_URL + "/api/master-kendaraan";
+
+      // 1. Deklarasi Variabel Global (HANYA SATU KALI)
+      let currentPage = 0;
+      const pageSize = 5;
+      let currentTicketData = [];
+      
+      const token = localStorage.getItem("token");
+      if (!token) {
         window.location.href = "login.html";
-    }
+      }
 
-    async function authFetch(url, options = {}) {
+      async function authFetch(url, options = {}) {
         const res = await fetch(url, {
-            ...options,
-            headers: {
-                ...(options.headers || {}),
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
-            }
+          ...options,
+          headers: {
+            ...(options.headers || {}),
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
         });
 
         if (res.status === 401 || res.status === 403) {
-            localStorage.removeItem("token");
-            window.location.href = "login.html";
-            return;
+          localStorage.removeItem("token");
+          window.location.href = "login.html";
+          return;
         }
 
         return res;
-    }
+      }
 
-    function logout() {
+      function logout() {
         Swal.fire({
-            title: 'Logout?',
-            text: 'Anda akan keluar dari sistem',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            confirmButtonText: 'Ya, Logout'
+          title: "Logout?",
+          text: "Anda akan keluar dari sistem",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#ef4444",
+          confirmButtonText: "Ya, Logout",
         }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const token = localStorage.getItem("token");
+          if (result.isConfirmed) {
+            try {
+              const token = localStorage.getItem("token");
 
-                    // Optional: hit backend logout
-                    if (token) {
-                        await fetch(BASE_URL + "/api/auth/logout", {
-    method: "POST",
-                            headers: {
-                                "Authorization": "Bearer " + token
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.log("Logout API error (ignored)");
-                }
-
-                // Hapus token
-                localStorage.removeItem("token");
-
-                // Redirect ke login
-                window.location.href = "login.html";
+              // Optional: hit backend logout
+              if (token) {
+                await fetch(BASE_URL + "/api/auth/logout", {
+                  method: "POST",
+                  headers: {
+                    Authorization: "Bearer " + token,
+                  },
+                });
+              }
+            } catch (e) {
+              console.log("Logout API error (ignored)");
             }
+
+            // Hapus token
+            localStorage.removeItem("token");
+
+            // Redirect ke login
+            window.location.href = "login.html";
+          }
         });
-    }
+      }
 
-    c// Auto detect environment (local / production)
-const BASE_URL = window.location.hostname.includes("localhost")
-    ? "http://localhost:8080"
-    : "https://ev-ticketing-production.up.railway.app";
-
-const API = BASE_URL + '/api/tickets';
-const MASTER_API = BASE_URL + '/api/master-kendaraan';
-
-
-    // 1. Deklarasi Variabel Global (HANYA SATU KALI)
-    let currentPage = 0;
-    const pageSize = 5;
-    let currentTicketData = [];
-
-    // FUNGSI GV: Menangani CamelCase, snake_case, dsb
-    const gv = (obj, key) => {
-        if (!obj) return '-';
+      // FUNGSI GV: Menangani CamelCase, snake_case, dsb
+      const gv = (obj, key) => {
+        if (!obj) return "-";
         if (obj[key] !== undefined && obj[key] !== null) return obj[key];
-        let snakeKey = key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+        let snakeKey = key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
         if (obj[snakeKey] !== undefined && obj[snakeKey] !== null) return obj[snakeKey];
-        return '-';
-    };
+        return "-";
+      };
 
-    // 2. LOAD DATA MONITORING
-    let currentStatus = ""; // Variable global untuk menyimpan filter aktif
+      // 2. LOAD DATA MONITORING
+      let currentStatus = ""; // Variable global untuk menyimpan filter aktif
 
-    async function loadTickets(page = 0) {
+      async function loadTickets(page = 0) {
         try {
-            currentPage = parseInt(page) || 0;
+          currentPage = parseInt(page) || 0;
 
-            // URL DEFAULT (Monitoring Biasa)
-            let url = `${API}/monitoring?page=${currentPage}&size=${pageSize}`;
+          // URL DEFAULT (Monitoring Biasa)
+          let url = `${API}/monitoring?page=${currentPage}&size=${pageSize}`;
 
-            // JIKA ADA FILTER STATUS, ARAHKAN KE ENDPOINT STATUS (Tanpa kata /monitoring)
-            if (currentStatus) {
-                url = `${API}/status/${currentStatus}?page=${currentPage}&size=${pageSize}`;
-            }
+          // JIKA ADA FILTER STATUS, ARAHKAN KE ENDPOINT STATUS (Tanpa kata /monitoring)
+          if (currentStatus) {
+            url = `${API}/status/${currentStatus}?page=${currentPage}&size=${pageSize}`;
+          }
 
-            console.log("authFetching dari URL:", url); // Cek ini di Console F12
+          console.log("authFetching dari URL:", url); // Cek ini di Console F12
 
-            const res = await authFetch(url);
-            if (!res) return;
+          const res = await authFetch(url);
+          if (!res) return;
 
-            if (!res.ok) throw new Error("Server Error: " + res.status);
+          if (!res.ok) throw new Error("Server Error: " + res.status);
 
-            const response = await res.json();
+          const response = await res.json();
 
-            // Sesuai diskusi sebelumnya, ambil data dari .content
-            const actualData = response.content || [];
+          // Sesuai diskusi sebelumnya, ambil data dari .content
+          const actualData = response.content || [];
 
-// simpan untuk export
-            currentTicketData = actualData;
+          // simpan untuk export
+          currentTicketData = actualData;
 
-            renderTable(actualData);
+          renderTable(actualData);
 
-            // Update Navigasi
-            const info = response.page || response;
-            updatePaginationUI(info);
-
+          // Update Navigasi
+          const info = response.page || response;
+          updatePaginationUI(info);
         } catch (e) {
-            console.error("Load Error:", e);
-            renderTable([]); // Menampilkan pesan "Belum ada antrean" jika error
+          console.error("Load Error:", e);
+          renderTable([]); // Menampilkan pesan "Belum ada antrean" jika error
         }
-    }
+      }
 
-    // Fungsi yang dipanggil saat dropdown status berubah
-    function filterByStatus() {
-        currentStatus = document.getElementById('statusFilter').value;
+      // Fungsi yang dipanggil saat dropdown status berubah
+      function filterByStatus() {
+        currentStatus = document.getElementById("statusFilter").value;
         loadTickets(0); // Reset ke halaman 1
-    }
+      }
 
-    // Fungsi Reset
-    function resetView() {
-        document.getElementById('searchInput').value = "";
-        document.getElementById('statusFilter').value = "";
+      // Fungsi Reset
+      function resetView() {
+        document.getElementById("searchInput").value = "";
+        document.getElementById("statusFilter").value = "";
         currentStatus = "";
         loadTickets(0);
-    }
+      }
 
-    // Fungsi pembantu Update UI Navigasi
-    function updatePaginationUI(info) {
+      // Fungsi pembantu Update UI Navigasi
+      function updatePaginationUI(info) {
         const serverPage = info.number !== undefined ? info.number : currentPage;
         const totalPages = info.totalPages || 0;
 
-        document.getElementById('currentPageDisplay').innerText = serverPage + 1;
+        document.getElementById("currentPageDisplay").innerText = serverPage + 1;
 
-        const isFirst = info.first !== undefined ? info.first : (serverPage === 0);
-        const isLast = info.last !== undefined ? info.last : ((serverPage + 1) >= totalPages);
+        const isFirst = info.first !== undefined ? info.first : serverPage === 0;
+        const isLast = info.last !== undefined ? info.last : serverPage + 1 >= totalPages;
 
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
 
-        if(prevBtn) {
-            prevBtn.disabled = isFirst;
-            prevBtn.classList.toggle('opacity-50', isFirst);
-            prevBtn.classList.toggle('pointer-events-none', isFirst);
+        if (prevBtn) {
+          prevBtn.disabled = isFirst;
+          prevBtn.classList.toggle("opacity-50", isFirst);
+          prevBtn.classList.toggle("pointer-events-none", isFirst);
         }
-        if(nextBtn) {
-            nextBtn.disabled = isLast;
-            nextBtn.classList.toggle('opacity-50', isLast);
-            nextBtn.classList.toggle('pointer-events-none', isLast);
+        if (nextBtn) {
+          nextBtn.disabled = isLast;
+          nextBtn.classList.toggle("opacity-50", isLast);
+          nextBtn.classList.toggle("pointer-events-none", isLast);
         }
-    }
-    // Fungsi Navigasi
-    function changePage(step) {
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
+      }
+      // Fungsi Navigasi
+      function changePage(step) {
+        const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
 
         // 1. Ambil status disabled terbaru dari element
         const isNextDisabled = nextBtn ? nextBtn.disabled : false;
@@ -461,42 +624,43 @@ const MASTER_API = BASE_URL + '/api/master-kendaraan';
         const nextStep = current + step;
 
         if (nextStep >= 0) {
-            loadTickets(nextStep);
+          loadTickets(nextStep);
         }
-    }
+      }
 
-    function renderTable(data) {
-        const tbody = document.getElementById('ticketTable');
+      function renderTable(data) {
+        const tbody = document.getElementById("ticketTable");
 
         // Pastikan data yang diproses adalah array
-        const list = Array.isArray(data) ? data : (data.content || []);
+        const list = Array.isArray(data) ? data : data.content || [];
 
         if (!list || list.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" class="p-20 text-center text-slate-400 font-bold uppercase tracking-widest">Belum ada antrean tiket aktif</td></tr>`;
-            return;
+          tbody.innerHTML = `<tr><td colspan="5" class="p-20 text-center text-slate-400 font-bold uppercase tracking-widest">Belum ada antrean tiket aktif</td></tr>`;
+          return;
         }
 
-        tbody.innerHTML = list.map(i => {
-            const status = gv(i, 'statusTiket') || 'OPEN';
+        tbody.innerHTML = list
+          .map((i) => {
+            const status = gv(i, "statusTiket") || "OPEN";
             const id = i.id || i.ticketId;
 
             return `
     <tr class="hover:bg-indigo-50/30 transition border-b">
         <td class="px-6 py-4 text-center font-mono text-[10px] font-black italic text-slate-400">#${id}</td>
         <td class="px-6 py-4">
-            <div class="font-black text-slate-800 uppercase tracking-tighter leading-tight">${gv(i, 'namaPelanggan')}</div>
-            <div class="text-[10px] text-indigo-500 font-bold mt-1 uppercase">RANGKA: ${gv(i, 'noRangka')}</div>
+            <div class="font-black text-slate-800 uppercase tracking-tighter leading-tight">${gv(i, "namaPelanggan")}</div>
+            <div class="text-[10px] text-indigo-500 font-bold mt-1 uppercase">RANGKA: ${gv(i, "noRangka")}</div>
         </td>
         <td class="px-6 py-4">
-            <span class="inline-block px-2 py-0.5 ${status === 'CLOSED' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'} rounded text-[9px] font-black uppercase mb-1">
-                ${status.replace(/_/g, ' ')}
+            <span class="inline-block px-2 py-0.5 ${status === "CLOSED" ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"} rounded text-[9px] font-black uppercase mb-1">
+                ${status.replace(/_/g, " ")}
             </span>
-            <div class="text-[11px] font-bold text-slate-400 italic">${gv(i, 'agingHari') || 0} HARI KERJA</div>
+            <div class="text-[11px] font-bold text-slate-400 italic">${gv(i, "agingHari") || 0} HARI KERJA</div>
         </td>
         <td class="px-6 py-4">
-            <div class="text-[10px] font-black uppercase tracking-wider text-slate-800 mb-0.5">${gv(i, 'kategoriTiket')}</div>
+            <div class="text-[10px] font-black uppercase tracking-wider text-slate-800 mb-0.5">${gv(i, "kategoriTiket")}</div>
             <div class="text-[10px] font-bold text-indigo-600 uppercase">
-                ${gv(i, 'merkTipeKendaraan') !== '-' ? gv(i, 'merkTipeKendaraan').replace(/_/g, ' ') : gv(i, 'partKerusakan')}
+                ${gv(i, "merkTipeKendaraan") !== "-" ? gv(i, "merkTipeKendaraan").replace(/_/g, " ") : gv(i, "partKerusakan")}
             </div>
         </td>
         <td class="px-6 py-4">
@@ -505,16 +669,24 @@ const MASTER_API = BASE_URL + '/api/master-kendaraan';
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
 
-                ${status !== 'CLOSED' ? `
+                ${
+                  status !== "CLOSED"
+                    ? `
                 <button onclick='prepAction(${JSON.stringify(i)}, "EDIT")' class="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition border border-blue-100" title="Edit">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                ` : ''}
+                `
+                    : ""
+                }
 
-                ${status !== 'CLOSED' ? `
+                ${
+                  status !== "CLOSED"
+                    ? `
                 <button onclick='prepAction(${JSON.stringify(i)}, "CLOSE")' class="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition border border-green-100" title="Selesaikan">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>` : ''}
+                </button>`
+                    : ""
+                }
 
                 <button onclick="delTicket(${id})" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition border border-red-100" title="Hapus">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -522,182 +694,196 @@ const MASTER_API = BASE_URL + '/api/master-kendaraan';
             </div>
         </td>
     </tr>`;
-        }).join('');
-    }
+          })
+          .join("");
+      }
 
-    // 2. CREATE TICKET LOGIC
-    function openCreateModal() { document.getElementById('createModal').classList.remove('hidden'); }
-    function closeCreateModal() {
-        document.getElementById('createModal').classList.add('hidden');
-        document.getElementById('createForm').reset();
-        document.getElementById('nrInput').value = '';
-        document.getElementById('createForm').classList.add('hidden');
-        document.getElementById('unitFoundCard').classList.add('hidden');
-    }
+      // 2. CREATE TICKET LOGIC
+      function openCreateModal() {
+        document.getElementById("createModal").classList.remove("hidden");
+      }
+      function closeCreateModal() {
+        document.getElementById("createModal").classList.add("hidden");
+        document.getElementById("createForm").reset();
+        document.getElementById("nrInput").value = "";
+        document.getElementById("createForm").classList.add("hidden");
+        document.getElementById("unitFoundCard").classList.add("hidden");
+      }
 
-    // Fungsi untuk memanggil API Backend dan membuka link WhatsApp
-    async function sendTicketToWhatsapp(ticketId) {
+      // Fungsi untuk memanggil API Backend dan membuka link WhatsApp
+      async function sendTicketToWhatsapp(ticketId) {
         try {
-            // Menampilkan loading state pada tombol jika diperlukan
-            const res = await authFetch(`${API}/${ticketId}/whatsapp/url`);
-            if (!res) return;
-            if (!res.ok) throw new Error("Gagal mengambil data dari server");
+          // Menampilkan loading state pada tombol jika diperlukan
+          const res = await authFetch(`${API}/${ticketId}/whatsapp/url`);
+          if (!res) return;
+          if (!res.ok) throw new Error("Gagal mengambil data dari server");
 
-            const data = await res.json();
+          const data = await res.json();
 
-            // Membuka tab baru ke WhatsApp dengan pesan yang sudah di-generate backend
-            if (data.url) {
-                window.open(data.url, '_blank');
-            } else {
-                Swal.fire('Error', 'URL WhatsApp tidak valid', 'error');
-            }
+          // Membuka tab baru ke WhatsApp dengan pesan yang sudah di-generate backend
+          if (data.url) {
+            window.open(data.url, "_blank");
+          } else {
+            Swal.fire("Error", "URL WhatsApp tidak valid", "error");
+          }
         } catch (e) {
-            console.error(e);
-            Swal.fire('Error', 'Gagal menyambungkan ke layanan WhatsApp', 'error');
+          console.error(e);
+          Swal.fire("Error", "Gagal menyambungkan ke layanan WhatsApp", "error");
         }
-    }
+      }
 
-    async function checkUnit() {
-        const nr = document.getElementById('nrInput').value;
-        if(!nr) return;
+      async function checkUnit() {
+        const nr = document.getElementById("nrInput").value;
+        if (!nr) return;
         try {
-            const res = await authFetch(`${MASTER_API}/search?noRangka=${nr}`);
-            if (!res) return;
+          const res = await authFetch(`${MASTER_API}/search?noRangka=${nr}`);
+          if (!res) return;
 
-            const raw = await res.json();
-            const unit = (raw.content && raw.content[0]) || (Array.isArray(raw) ? raw[0] : raw);
+          const raw = await res.json();
+          const unit = (raw.content && raw.content[0]) || (Array.isArray(raw) ? raw[0] : raw);
 
-            if (unit && (unit.id || unit.ID)) {
-                document.getElementById('targetMasterId').value = gv(unit, 'id');
-                document.getElementById('unitFoundCard').classList.remove('hidden');
-                document.getElementById('createForm').classList.remove('hidden');
-                document.getElementById('dispCust').innerText = gv(unit, 'namaPelanggan');
-                document.getElementById('dispUnit').innerText = `${gv(unit, 'merkTipeKendaraan')} | PLAT: ${gv(unit, 'noPlat')}`;
-                document.getElementById('cTglMasuk').value = new Date().toISOString().split('T')[0];
-            } else {
-                Swal.fire('Opps!', 'Nomor Rangka tidak ditemukan di database master.', 'error');
-            }
-        } catch (e) { Swal.fire('Error', 'Gagal memverifikasi unit.', 'error'); }
-    }
+          if (unit && (unit.id || unit.ID)) {
+            document.getElementById("targetMasterId").value = gv(unit, "id");
+            document.getElementById("unitFoundCard").classList.remove("hidden");
+            document.getElementById("createForm").classList.remove("hidden");
+            document.getElementById("dispCust").innerText = gv(unit, "namaPelanggan");
+            document.getElementById("dispUnit").innerText =
+              `${gv(unit, "merkTipeKendaraan")} | PLAT: ${gv(unit, "noPlat")}`;
+            document.getElementById("cTglMasuk").value = new Date().toISOString().split("T")[0];
+          } else {
+            Swal.fire("Opps!", "Nomor Rangka tidak ditemukan di database master.", "error");
+          }
+        } catch (e) {
+          Swal.fire("Error", "Gagal memverifikasi unit.", "error");
+        }
+      }
 
-    document.getElementById('createForm').onsubmit = async (e) => {
+      document.getElementById("createForm").onsubmit = async (e) => {
         e.preventDefault();
-        const mid = document.getElementById('targetMasterId').value;
+        const mid = document.getElementById("targetMasterId").value;
         const payload = {
-            tanggalMasuk: document.getElementById('cTglMasuk').value,
-            kategoriTiket: document.getElementById('cKat').value,
-            kategoriKerusakan: document.getElementById('cKatRusak').value,
-            partKerusakan: document.getElementById('cPart').value,
-            keterangan: document.getElementById('cKet').value,
-            odometer: parseInt(document.getElementById('cOdo').value) || 0,
-            picPelapor: document.getElementById('cPic').value,
-            noHpPelapor: document.getElementById('cHp').value
+          tanggalMasuk: document.getElementById("cTglMasuk").value,
+          kategoriTiket: document.getElementById("cKat").value,
+          kategoriKerusakan: document.getElementById("cKatRusak").value,
+          partKerusakan: document.getElementById("cPart").value,
+          keterangan: document.getElementById("cKet").value,
+          odometer: parseInt(document.getElementById("cOdo").value) || 0,
+          picPelapor: document.getElementById("cPic").value,
+          noHpPelapor: document.getElementById("cHp").value,
         };
         try {
-            const res = await authFetch(`${API}/${mid}`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(payload)
-            });
-            if(res.ok) {
-                Swal.fire('Berhasil', 'Tiket keluhan telah didaftarkan.', 'success');
-                closeCreateModal(); loadTickets();
-            } else {
-                Swal.fire('Gagal', 'Gagal menyimpan tiket.', 'error');
-            }
-        } catch (e) { Swal.fire('Error', 'Kesalahan server.', 'error'); }
-    }
+          const res = await authFetch(`${API}/${mid}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (res.ok) {
+            Swal.fire("Berhasil", "Tiket keluhan telah didaftarkan.", "success");
+            closeCreateModal();
+            loadTickets();
+          } else {
+            Swal.fire("Gagal", "Gagal menyimpan tiket.", "error");
+          }
+        } catch (e) {
+          Swal.fire("Error", "Kesalahan server.", "error");
+        }
+      };
 
-    // 3. UPDATE ACTION (EDIT & CLOSE)
-    async function prepAction(i, type) {
+      // 3. UPDATE ACTION (EDIT & CLOSE)
+      async function prepAction(i, type) {
         try {
-            const id = gv(i, 'ticketId') !== '-' ? gv(i, 'ticketId') : gv(i, 'id');
-            const res = await authFetch(`${API}/${id}`);
-            if (!res) return;
-            const data = await res.json();
+          const id = gv(i, "ticketId") !== "-" ? gv(i, "ticketId") : gv(i, "id");
+          const res = await authFetch(`${API}/${id}`);
+          if (!res) return;
+          const data = await res.json();
 
-            document.getElementById('actionModal').classList.remove('hidden');
-            document.getElementById('detailView').classList.add('hidden');
-            document.getElementById('actionForm').classList.remove('hidden');
-            document.getElementById('actionTicketId').value = id;
-            document.getElementById('actionType').value = type;
+          document.getElementById("actionModal").classList.remove("hidden");
+          document.getElementById("detailView").classList.add("hidden");
+          document.getElementById("actionForm").classList.remove("hidden");
+          document.getElementById("actionTicketId").value = id;
+          document.getElementById("actionType").value = type;
 
-            if (type === 'CLOSE') {
-                document.getElementById('actionTitle').innerHTML = 'Selesaikan <span class="text-green-600">Tiket</span>';
-                document.getElementById('editArea').classList.add('hidden');
-                document.getElementById('closeArea').classList.remove('hidden');
-                document.getElementById('cTglSelesai').value = new Date().toISOString().split('T')[0];
-            } else {
-                document.getElementById('actionTitle').innerText = 'Edit Data Keluhan';
-                document.getElementById('editArea').classList.remove('hidden');
-                document.getElementById('closeArea').classList.add('hidden');
-                document.getElementById('eTglMasuk').value = gv(data, 'tanggalMasuk');
-                document.getElementById('eOdo').value = gv(data, 'odometer') || 0;
-                document.getElementById('eKat').value = gv(data, 'kategoriTiket');
-                document.getElementById('eKatRusak').value = gv(data, 'kategoriKerusakan');
-                document.getElementById('ePart').value = gv(data, 'partKerusakan');
-                document.getElementById('ePic').value = gv(data, 'picPelapor');
-                document.getElementById('eHp').value = gv(data, 'noHpPelapor');
-                document.getElementById('eKet').value = gv(data, 'keterangan');
-            }
-        } catch (e) { Swal.fire('Error', 'Gagal memuat data tiket.', 'error'); }
-    }
+          if (type === "CLOSE") {
+            document.getElementById("actionTitle").innerHTML = 'Selesaikan <span class="text-green-600">Tiket</span>';
+            document.getElementById("editArea").classList.add("hidden");
+            document.getElementById("closeArea").classList.remove("hidden");
+            document.getElementById("cTglSelesai").value = new Date().toISOString().split("T")[0];
+          } else {
+            document.getElementById("actionTitle").innerText = "Edit Data Keluhan";
+            document.getElementById("editArea").classList.remove("hidden");
+            document.getElementById("closeArea").classList.add("hidden");
+            document.getElementById("eTglMasuk").value = gv(data, "tanggalMasuk");
+            document.getElementById("eOdo").value = gv(data, "odometer") || 0;
+            document.getElementById("eKat").value = gv(data, "kategoriTiket");
+            document.getElementById("eKatRusak").value = gv(data, "kategoriKerusakan");
+            document.getElementById("ePart").value = gv(data, "partKerusakan");
+            document.getElementById("ePic").value = gv(data, "picPelapor");
+            document.getElementById("eHp").value = gv(data, "noHpPelapor");
+            document.getElementById("eKet").value = gv(data, "keterangan");
+          }
+        } catch (e) {
+          Swal.fire("Error", "Gagal memuat data tiket.", "error");
+        }
+      }
 
-    document.getElementById('actionForm').onsubmit = async (e) => {
+      document.getElementById("actionForm").onsubmit = async (e) => {
         e.preventDefault();
-        const tid = document.getElementById('actionTicketId').value;
-        const type = document.getElementById('actionType').value;
+        const tid = document.getElementById("actionTicketId").value;
+        const type = document.getElementById("actionType").value;
         let url = `${API}/${tid}`;
         let payload = {};
 
-        if (type === 'CLOSE') {
-            url += '/close';
-            payload = {
-                tanggalSelesai: document.getElementById('cTglSelesai').value,
-                updateAction: document.getElementById('cUpdAction').value,
-                keterangan: document.getElementById('cKetClose').value
-            };
+        if (type === "CLOSE") {
+          url += "/close";
+          payload = {
+            tanggalSelesai: document.getElementById("cTglSelesai").value,
+            updateAction: document.getElementById("cUpdAction").value,
+            keterangan: document.getElementById("cKetClose").value,
+          };
         } else {
-            payload = {
-                tanggalMasuk: document.getElementById('eTglMasuk').value,
-                odometer: parseInt(document.getElementById('eOdo').value) || 0,
-                kategoriTiket: document.getElementById('eKat').value,
-                kategoriKerusakan: document.getElementById('eKatRusak').value,
-                partKerusakan: document.getElementById('ePart').value,
-                picPelapor: document.getElementById('ePic').value,
-                noHpPelapor: document.getElementById('eHp').value,
-                keterangan: document.getElementById('eKet').value
-            };
+          payload = {
+            tanggalMasuk: document.getElementById("eTglMasuk").value,
+            odometer: parseInt(document.getElementById("eOdo").value) || 0,
+            kategoriTiket: document.getElementById("eKat").value,
+            kategoriKerusakan: document.getElementById("eKatRusak").value,
+            partKerusakan: document.getElementById("ePart").value,
+            picPelapor: document.getElementById("ePic").value,
+            noHpPelapor: document.getElementById("eHp").value,
+            keterangan: document.getElementById("eKet").value,
+          };
         }
 
         try {
-            const res = await authFetch(url, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(payload)
-            });
-            if (res.ok) {
-                Swal.fire('Sukses', 'Tiket telah diperbarui.', 'success');
-                closeActionModal(); loadTickets();
-            } else {
-                Swal.fire('Gagal', 'Terjadi kesalahan saat menyimpan.', 'error');
-            }
-        } catch (e) { Swal.fire('Error', 'Koneksi terputus.', 'error'); }
-    }
+          const res = await authFetch(url, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (res.ok) {
+            Swal.fire("Sukses", "Tiket telah diperbarui.", "success");
+            closeActionModal();
+            loadTickets();
+          } else {
+            Swal.fire("Gagal", "Terjadi kesalahan saat menyimpan.", "error");
+          }
+        } catch (e) {
+          Swal.fire("Error", "Koneksi terputus.", "error");
+        }
+      };
 
-    // 4. DETAIL VIEW
-    async function showTicketDetail(id) {
+      // 4. DETAIL VIEW
+      async function showTicketDetail(id) {
         try {
-            const res = await authFetch(`${API}/${id}`);
-            if (!res) return;
-            const i = await res.json();
+          const res = await authFetch(`${API}/${id}`);
+          if (!res) return;
+          const i = await res.json();
 
-            document.getElementById('actionModal').classList.remove('hidden');
-            document.getElementById('actionForm').classList.add('hidden');
-            document.getElementById('detailView').classList.remove('hidden');
-            document.getElementById('actionTitle').innerText = `Ticket Detail #${id}`;
+          document.getElementById("actionModal").classList.remove("hidden");
+          document.getElementById("actionForm").classList.add("hidden");
+          document.getElementById("detailView").classList.remove("hidden");
+          document.getElementById("actionTitle").innerText = `Ticket Detail #${id}`;
 
-            document.getElementById('detailView').innerHTML = `
+          document.getElementById("detailView").innerHTML = `
                 <div class="grid grid-cols-2 gap-x-4 gap-y-4 text-xs">
                     <div class="col-span-2 bg-green-50 border-2 border-green-100 p-4 rounded-2xl mb-2 flex items-center justify-between">
                         <div>
@@ -715,163 +901,164 @@ const MASTER_API = BASE_URL + '/api/master-kendaraan';
 
 <div class="flex flex-col">
     <span class="font-bold text-slate-400">Nama Pelanggan</span>
-    <span class="font-black text-slate-800 uppercase">${i.namaPelanggan || '-'}</span>
+    <span class="font-black text-slate-800 uppercase">${i.namaPelanggan || "-"}</span>
 </div>
 <div class="flex flex-col">
     <span class="font-bold text-slate-400">No Rangka</span>
-    <span class="font-bold font-mono">${i.noRangka || '-'}</span>
+    <span class="font-bold font-mono">${i.noRangka || "-"}</span>
 </div>
 <div class="flex flex-col">
     <span class="font-bold text-slate-400">Merk / Tipe Unit</span>
-    <span class="font-bold uppercase text-indigo-600">${i.merkTipeKendaraan ? i.merkTipeKendaraan.replace(/_/g, ' ') : '-'}</span>
+    <span class="font-bold uppercase text-indigo-600">${i.merkTipeKendaraan ? i.merkTipeKendaraan.replace(/_/g, " ") : "-"}</span>
 </div>
 <div class="flex flex-col">
     <span class="font-bold text-slate-400">Odometer</span>
     <span class="font-bold">${i.odometer || 0} KM</span>
 </div>
                     <h3 class="col-span-2 font-black text-indigo-600 text-[10px] uppercase tracking-widest border-b pb-1 mt-4">Informasi Keluhan</h3>
-                    <div class="flex flex-col"><span class="font-bold text-slate-400">Kategori Tiket</span><span class="font-bold">${gv(i, 'kategoriTiket')}</span></div>
-                    <div class="flex flex-col"><span class="font-bold text-slate-400">Tgl Masuk</span><span class="font-bold">${gv(i, 'tanggalMasuk')}</span></div>
-                    <div class="col-span-2 flex flex-col"><span class="font-bold text-slate-400">Part Kerusakan</span><span class="font-bold uppercase text-red-500">${gv(i, 'partKerusakan')}</span></div>
-                    <div class="col-span-2 flex flex-col"><span class="font-bold text-slate-400">Detail Keluhan</span><div class="p-3 bg-slate-50 border rounded-lg italic text-slate-600 mt-1">${gv(i, 'keterangan')}</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-400">Kategori Tiket</span><span class="font-bold">${gv(i, "kategoriTiket")}</span></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-400">Tgl Masuk</span><span class="font-bold">${gv(i, "tanggalMasuk")}</span></div>
+                    <div class="col-span-2 flex flex-col"><span class="font-bold text-slate-400">Part Kerusakan</span><span class="font-bold uppercase text-red-500">${gv(i, "partKerusakan")}</span></div>
+                    <div class="col-span-2 flex flex-col"><span class="font-bold text-slate-400">Detail Keluhan</span><div class="p-3 bg-slate-50 border rounded-lg italic text-slate-600 mt-1">${gv(i, "keterangan")}</div></div>
 
                     <h3 class="col-span-2 font-black text-indigo-600 text-[10px] uppercase tracking-widest border-b pb-1 mt-4">Status & Penyelesaian</h3>
 
                     <div class="flex flex-col">
                         <span class="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Status Tiket</span>
-                        <span class="text-[11px] font-black uppercase tracking-widest ${gv(i, 'statusTiket') === 'CLOSED' ? 'text-green-600' : 'text-orange-500'}">
-                            ${gv(i, 'statusTiket').replace(/_/g, ' ')}
+                        <span class="text-[11px] font-black uppercase tracking-widest ${gv(i, "statusTiket") === "CLOSED" ? "text-green-600" : "text-orange-500"}">
+                            ${gv(i, "statusTiket").replace(/_/g, " ")}
                         </span>
                     </div>
 
 
-                    <div class="flex flex-col"><span class="font-bold text-slate-400">Tgl Selesai</span><span class="font-bold">${gv(i, 'tanggalSelesai') || '---'}</span></div>
-                    <div class="col-span-2 flex flex-col"><span class="font-bold text-slate-400">Update Tindakan</span><div class="p-3 bg-green-50 border border-green-100 rounded-lg text-green-800 font-medium mt-1">${gv(i, 'updateAction') || 'Belum ada update tindakan...'}</div></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-400">Tgl Selesai</span><span class="font-bold">${gv(i, "tanggalSelesai") || "---"}</span></div>
+                    <div class="col-span-2 flex flex-col"><span class="font-bold text-slate-400">Update Tindakan</span><div class="p-3 bg-green-50 border border-green-100 rounded-lg text-green-800 font-medium mt-1">${gv(i, "updateAction") || "Belum ada update tindakan..."}</div></div>
 
                     <h3 class="col-span-2 font-black text-indigo-600 text-[10px] uppercase tracking-widest border-b pb-1 mt-4">PIC Pelapor</h3>
-                    <div class="flex flex-col"><span class="font-bold text-slate-400">Nama PIC</span><span class="font-bold uppercase">${gv(i, 'picPelapor')}</span></div>
-                    <div class="flex flex-col"><span class="font-bold text-slate-400">Kontak</span><span class="font-bold">${gv(i, 'noHpPelapor')}</span></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-400">Nama PIC</span><span class="font-bold uppercase">${gv(i, "picPelapor")}</span></div>
+                    <div class="flex flex-col"><span class="font-bold text-slate-400">Kontak</span><span class="font-bold">${gv(i, "noHpPelapor")}</span></div>
                 </div>
                 <button onclick="closeActionModal()" class="w-full bg-slate-800 text-white font-black py-4 rounded-xl mt-8 uppercase tracking-widest text-xs shadow-lg hover:bg-slate-700 transition">Tutup Detail</button>
             `;
-        } catch (e) { Swal.fire('Error', 'Gagal memuat detail tiket.', 'error'); }
-    }
+        } catch (e) {
+          Swal.fire("Error", "Gagal memuat detail tiket.", "error");
+        }
+      }
 
-    function closeActionModal() {
-        document.getElementById('actionModal').classList.add('hidden');
-        document.getElementById('actionForm').reset();
-        document.getElementById('detailView').innerHTML = '';
-    }
+      function closeActionModal() {
+        document.getElementById("actionModal").classList.add("hidden");
+        document.getElementById("actionForm").reset();
+        document.getElementById("detailView").innerHTML = "";
+      }
 
-    // 5. SEARCH & DELETE
-    async function searchTicket() {
-        const keyword = document.getElementById('searchInput').value.trim();
-        if(!keyword) return loadTickets();
+      // 5. SEARCH & DELETE
+      async function searchTicket() {
+        const keyword = document.getElementById("searchInput").value.trim();
+        if (!keyword) return loadTickets();
 
         try {
-            // Menggunakan URLSearchParams agar pembentukan query string lebih aman
-            // Kita coba cari berdasarkan noRangka, jika tidak ada baru pindah ke noMesin di sisi BE
-            const params = new URLSearchParams({ noRangka: keyword });
+          // Menggunakan URLSearchParams agar pembentukan query string lebih aman
+          // Kita coba cari berdasarkan noRangka, jika tidak ada baru pindah ke noMesin di sisi BE
+          const params = new URLSearchParams({ noRangka: keyword });
 
-            const res = await authFetch(`${API}/monitoring/search?${params.toString()}`);
-            if (!res) return;
-            if(res.ok) {
-                const data = await res.json();
-                if(data.length === 0) {
-                    Swal.fire('Info', 'Riwayat tiket tidak ditemukan untuk unit ini.', 'info');
-                    return;
-                }
-                renderTable(data.content || data);
-                currentTicketData = data.content || data;
-
-            } else {
-                // Jika pencarian No Rangka gagal (404/400), coba cari berdasarkan No Mesin
-                const paramsMesin = new URLSearchParams({ noMesin: keyword });
-                const resMesin = await authFetch(`${API}/monitoring/search?${paramsMesin.toString()}`);
-                if (!resMesin) return;
-
-                if(resMesin.ok) {
-                    const dataMesin = await resMesin.json();
-                    renderTable(dataMesin.content || dataMesin);
-                } else {
-                    Swal.fire('Info', 'Data unit atau tiket tidak ditemukan.', 'info');
-                    loadTickets();
-                }
+          const res = await authFetch(`${API}/monitoring/search?${params.toString()}`);
+          if (!res) return;
+          if (res.ok) {
+            const data = await res.json();
+            if (data.length === 0) {
+              Swal.fire("Info", "Riwayat tiket tidak ditemukan untuk unit ini.", "info");
+              return;
             }
+            renderTable(data.content || data);
+            currentTicketData = data.content || data;
+          } else {
+            // Jika pencarian No Rangka gagal (404/400), coba cari berdasarkan No Mesin
+            const paramsMesin = new URLSearchParams({ noMesin: keyword });
+            const resMesin = await authFetch(`${API}/monitoring/search?${paramsMesin.toString()}`);
+            if (!resMesin) return;
+
+            if (resMesin.ok) {
+              const dataMesin = await resMesin.json();
+              renderTable(dataMesin.content || dataMesin);
+            } else {
+              Swal.fire("Info", "Data unit atau tiket tidak ditemukan.", "info");
+              loadTickets();
+            }
+          }
         } catch (e) {
-            console.error(e);
-            loadTickets();
+          console.error(e);
+          loadTickets();
         }
-    }
+      }
 
-    async function delTicket(id) {
+      async function delTicket(id) {
         const conf = await Swal.fire({
-            title: 'Hapus Tiket?',
-            text: "Data tiket ini akan dihapus permanen dari monitoring.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            confirmButtonText: 'Ya, Hapus'
+          title: "Hapus Tiket?",
+          text: "Data tiket ini akan dihapus permanen dari monitoring.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#ef4444",
+          confirmButtonText: "Ya, Hapus",
         });
-        if(conf.isConfirmed) {
-            try {
-                const res = await authFetch(`${API}/${id}`, {method: 'DELETE'});
-                if(res.ok) {
-                    Swal.fire('Terhapus', 'Tiket telah dibuang.', 'success');
-                    loadTickets();
-                }
-            } catch (e) { Swal.fire('Error', 'Gagal menghapus.', 'error'); }
+        if (conf.isConfirmed) {
+          try {
+            const res = await authFetch(`${API}/${id}`, { method: "DELETE" });
+            if (res.ok) {
+              Swal.fire("Terhapus", "Tiket telah dibuang.", "success");
+              loadTickets();
+            }
+          } catch (e) {
+            Swal.fire("Error", "Gagal menghapus.", "error");
+          }
         }
-    }
+      }
 
-    function exportTickets() {
+      function exportTickets() {
         if (!currentTicketData || currentTicketData.length === 0) {
-            Swal.fire('Info', 'Tidak ada data untuk di-export', 'info');
-            return;
+          Swal.fire("Info", "Tidak ada data untuk di-export", "info");
+          return;
         }
 
-        const exportData = currentTicketData.map(i => ({
-            // ===== DATA PELANGGAN & UNIT =====
-            "ID Tiket": i.id || i.ticketId,
-            "Nama Pelanggan": i.namaPelanggan || '-',
-            "No Rangka": i.noRangka || '-',
-            "Merk / Tipe Unit": (i.merkTipeKendaraan || '-').replace(/_/g, ' '),
-            "Odometer (KM)": i.odometer || 0,
+        const exportData = currentTicketData.map((i) => ({
+          // ===== DATA PELANGGAN & UNIT =====
+          "ID Tiket": i.id || i.ticketId,
+          "Nama Pelanggan": i.namaPelanggan || "-",
+          "No Rangka": i.noRangka || "-",
+          "Merk / Tipe Unit": (i.merkTipeKendaraan || "-").replace(/_/g, " "),
+          "Odometer (KM)": i.odometer || 0,
 
-            // ===== INFORMASI KELUHAN =====
-            "Kategori Tiket": i.kategoriTiket || '-',
-            "Kategori Kerusakan": i.kategoriKerusakan || '-',
-            "Part Kerusakan": i.partKerusakan || '-',
-            "Detail Keluhan": i.keterangan || '-',
-            "Tanggal Masuk": i.tanggalMasuk || '-',
+          // ===== INFORMASI KELUHAN =====
+          "Kategori Tiket": i.kategoriTiket || "-",
+          "Kategori Kerusakan": i.kategoriKerusakan || "-",
+          "Part Kerusakan": i.partKerusakan || "-",
+          "Detail Keluhan": i.keterangan || "-",
+          "Tanggal Masuk": i.tanggalMasuk || "-",
 
-            // ===== STATUS =====
-            "Status Tiket": (i.statusTiket || '-').replace(/_/g, ' '),
-            "Tanggal Selesai": i.tanggalSelesai || '-',
-            "Update Tindakan": i.updateAction || '-',
-            "Aging (Hari)": i.agingHari || 0,
+          // ===== STATUS =====
+          "Status Tiket": (i.statusTiket || "-").replace(/_/g, " "),
+          "Tanggal Selesai": i.tanggalSelesai || "-",
+          "Update Tindakan": i.updateAction || "-",
+          "Aging (Hari)": i.agingHari || 0,
 
-            // ===== PIC =====
-            "Nama PIC": i.picPelapor || '-',
-            "No HP PIC": i.noHpPelapor || '-'
+          // ===== PIC =====
+          "Nama PIC": i.picPelapor || "-",
+          "No HP PIC": i.noHpPelapor || "-",
         }));
 
         const ws = XLSX.utils.json_to_sheet(exportData);
 
         // Auto width kolom biar rapi
-        ws['!cols'] = Object.keys(exportData[0]).map(() => ({ wch: 20 }));
+        ws["!cols"] = Object.keys(exportData[0]).map(() => ({ wch: 20 }));
 
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Monitoring Detail");
 
         XLSX.writeFile(wb, "Monitoring_Tiket_Detail.xlsx");
-    }
+      }
 
-
-    // Init
-    loadTickets();
-</script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
-</body>
+      // Init
+      loadTickets();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  </body>
 </html>

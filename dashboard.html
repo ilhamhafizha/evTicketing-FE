@@ -42,7 +42,7 @@
 
             <div class="hidden md:flex items-center gap-1">
               <a
-               href="ticketing.html"
+                href="ticketing.html"
                 id="nav-monitoring"
                 class="px-4 py-2 rounded-lg text-sm font-bold transition-all text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
               >
@@ -663,7 +663,12 @@
         });
       }
 
-      const API = "http://localhost:8080/api/master-kendaraan";
+      // === CONFIG BACKEND ===
+      // Ganti dengan URL Railway kamu
+      const BASE_URL = "https://your-backend-url.up.railway.app";
+
+      const API = `${BASE_URL}/api/master-kendaraan`;
+
       let currentPage = 0;
       const pageSize = 5;
       let currentMasterData = [];
@@ -756,7 +761,7 @@
           if (res.ok) {
             rawData = await res.json();
           } else {
-            const resMesin = await fetch(`${API}/search?noMesin=${q}`);
+            const resMesin = await authFetch(`${API}/search?noMesin=${q}`);
             if (resMesin.ok) {
               rawData = await resMesin.json();
             } else {
@@ -851,6 +856,7 @@
           )
           .join("");
       }
+      
       function showDetail(i) {
         // Fungsi pembantu lokal untuk membersihkan format Enum (Misal: BYD_M6 -> BYD M6)
         const formatEnum = (val) => {
@@ -987,6 +993,7 @@
         document.getElementById("kelengkapanData").value = i.kelengkapanData || "";
         document.getElementById("catatan").value = gv(i, "catatan");
       }
+      
       function deleteData(id) {
         Swal.fire({
           title: "Hapus Unit?",
